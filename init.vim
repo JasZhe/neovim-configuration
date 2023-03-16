@@ -124,35 +124,14 @@ let bufferline.icon_pinned = '車'
 let bufferline.icons = 'both'
 let bufferline.highlight_inactive_file_icons = v:true
 
-" barbar keybindings, I want to use the tab navigation for buffer navigation
+" for barbar keybindings, I want to use the tab navigation for buffer navigation
 " instead. Use the :tabn<i> to change tabs. Think of tabs as workspaces
 map gt <Nop>
 map gT <Nop>
-nnoremap <silent>    gT             <Cmd>BufferPrevious<CR>
-nnoremap <silent>    gt             <Cmd>BufferNext<CR>
-nnoremap <silent>    <leader>p      <Cmd>BufferPin<CR>
-
-" NeoTree keybindings
-nnoremap <leader>nt <cmd>NeoTreeShowToggle<cr>
-
-nnoremap <leader>F <cmd>Telescope find_files<cr>
-nnoremap <leader>U <cmd>Telescope lsp_references<cr>
-nnoremap <leader>G <cmd>Telescope live_grep<cr>
-nnoremap <leader>B <cmd>Telescope buffers<cr>
-nnoremap <leader>th <cmd>Telescope help_tags<cr>
-nnoremap <leader>A <cmd>Telescope aerial<cr>
-
-
-" Minimap
-let g:minimap_width = 15
-let g:minimap_auto_start = 1
-let g:minimap_auto_start_win_enter = 0
-let g:minimap_block_filetypes = ["neo-tree", "aerial", "Scratch", "Plugins"]
-nnoremap <leader>M <cmd>MinimapToggle<cr>
 
 " https://stackoverflow.com/questions/4115841/is-it-possible-to-remap-wq-to-save-and-close-the-current-buffer-instead-of-sav
 cnoreabbrev q BufferClose |" Will need to :quit to actually exit the window
 
 colorscheme tokyonight
 
-lua require('plugins')
+lua require 'plugins_setup'
