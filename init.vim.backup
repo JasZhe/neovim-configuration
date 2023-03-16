@@ -1,0 +1,187 @@
+set mouse=a
+set autoindent
+set termguicolors
+
+" better <Leader> key 
+let mapleader = ","
+
+" Fix yank and paste replacing yank register with whatever was replaced
+xnoremap p pgvy
+
+set path=$PWD/**
+
+" Change tabs to spaces
+set tabstop=4
+set shiftwidth=4
+set expandtab
+
+" set filetype on: vim will try and recognize the type of the file
+" plugin on: when a file is edited, its plugin file is loaded. Loads 'ftplugin.vim'
+" indent on: when a file is edited, its indent file is loaded. Loads 'indent.vim'
+filetype plugin indent on
+
+" Go to next camel case
+nnoremap <c-k> :<c-u>call search('\u')<cr>
+
+" move selected lines up one line
+xnoremap <C-I>  :m-2<CR>gv=gv
+
+" move selected lines down one line
+xnoremap <C-J> :m'>+<CR>gv=gv
+
+" reselect selection after indenting
+vnoremap > >gv
+vnoremap < <gv
+
+" auto download vim-plug
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+set number "show line numbers on the side
+
+" Vim-plug Plugins 
+call plug#begin('~/.vim/plugged')
+" NEOVIM GO SETUP FROM ray-x/go.nvim
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'mfussenegger/nvim-dap'
+Plug 'rcarriga/nvim-dap-ui'
+Plug 'theHamsta/nvim-dap-virtual-text'
+Plug 'ray-x/guihua.lua', {'do': 'cd lua/fzy && make' } " float term, codeaction and codelens gui support
+Plug 'ray-x/go.nvim'
+
+" Code navigation
+Plug 'ray-x/navigator.lua'
+
+" Side bar file navigation
+Plug 'nvim-neo-tree/neo-tree.nvim'
+Plug 'nvim-tree/nvim-web-devicons'
+Plug 's1n7ax/nvim-window-picker' " enables neo-tree to jump to files more easily or something
+
+" Adds git changes, line blames etc
+Plug 'lewis6991/gitsigns.nvim'
+
+" Better status bar
+Plug 'vim-airline/vim-airline'
+
+" Buffer tabs to behave like other IDEs
+Plug 'nvim-tree/nvim-web-devicons'
+Plug 'tiagovla/scope.nvim' " allow scoping of buffers to tabs
+Plug 'romgrk/barbar.nvim'
+
+" Autocomplete
+Plug 'ms-jpq/coq_nvim', {'branch': 'coq', 'do': ':COQnow'}
+
+" PR reviews and stuff
+Plug 'nvim-lua/plenary.nvim' "required by telescope, some lua coroutines or something
+Plug 'nvim-telescope/telescope.nvim' "required by octor, fuzzy finder
+Plug 'MunifTanjim/nui.nvim' " required by octo, cooler ui components
+Plug 'pwntester/octo.nvim' " pr reviews
+Plug 'sindrets/diffview.nvim' " better git patch diff view
+
+" Floating terminal
+Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
+
+" Mardown 
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+
+" COLOR SCHEMES
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'navarasu/onedark.nvim'
+
+call plug#end()
+
+" barbar settings
+let g:airline#extensions#tabline#enabled = 0 " For barbar buffers to work with airline
+let bufferline = get(g:, 'bufferline', {}) " create bufferline option dict
+let bufferline.icon_pinned = '車'
+let bufferline.icons = 'both'
+let bufferline.highlight_inactive_file_icons = v:true
+
+" barbar keybindings, I want to use the tab navigation for buffer navigation
+" instead. Use the :tabn<i> to change tabs. Think of tabs as workspaces
+map gt <Nop>
+map gT <Nop>
+nnoremap <silent>    gT             <Cmd>BufferPrevious<CR>
+nnoremap <silent>    gt             <Cmd>BufferNext<CR>
+nnoremap <silent>    <leader>c      <Cmd>BufferClose<CR>
+nnoremap <silent>    <leader>p      <Cmd>BufferPin<CR>
+
+" For which-key
+set timeout
+set timeoutlen=300
+
+colorscheme tokyonight
+
+lua <<EOF
+require 'go'.setup({
+  goimport = 'gopls', -- if set to 'gopls' will use golsp format
+  gofmt = 'gopls', -- if set to gopls will use golsp format
+  max_line_len = 120,
+  tag_transform = false,
+  test_dir = '',
+  comment_placeholder = '   ',
+  lsp_cfg = true, -- false: use your own lspconfig
+  lsp_gofumpt = true, -- true: set default gofmt in gopls format to gofumpt
+  lsp_on_attach = true, -- use on_attach from go.nvim
+  lsp_keymaps = false,
+  dap_debug = true,
+})
+
+local protocol = require'vim.lsp.protocol'
+
+require 'navigator'.setup({
+    keymaps = {{key = "<leader>t", func = vim.lsp.buf.type_definition, desc="prefer gt mapping for tab navigation"}}
+})
+
+
+-- barbar offset with filetree plugins
+vim.api.nvim_create_autocmd('FileType', {
+  callback = function(tbl)
+    local set_offset = require('bufferline.api').set_offset
+
+    local bufwinid
+    local last_width
+    local autocmd = vim.api.nvim_create_autocmd('WinScrolled', {
+      callback = function()
+        bufwinid = bufwinid or vim.fn.bufwinid(tbl.buf)
+
+        local width = vim.api.nvim_win_get_width(bufwinid)
+        if width ~= last_width then
+          set_offset(width, 'FileTree')
+          last_width = width
+        end
+      end,
+    })
+
+    vim.api.nvim_create_autocmd('BufWipeout', {
+      buffer = tbl.buf,
+      callback = function()
+        vim.api.nvim_del_autocmd(autocmd)
+        set_offset(0)
+      end,
+      once = true,
+    })
+  end,
+  pattern = 'neo-tree'
+})
+
+EOF
+
+lua require'scope'.setup()
+
+lua require'gitsigns'.setup()
+
+lua require'octo'.setup()
+
+lua require("toggleterm").setup()
+
+lua require'window-picker'.setup()
+
+" THIS THING IS THE ONE THAT ACTUALLY ENABLES HIGHLIGHTING IN TREESITTER
+lua require'nvim-treesitter.configs'.setup{highlight={enable=true}}
+
+
