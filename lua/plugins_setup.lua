@@ -19,6 +19,7 @@ function SetupGo()
 end
 
 function MiniSetup()
+  require('mini.bracketed').setup()
   require('mini.comment').setup()
   require('mini.indentscope').setup()
   require('mini.completion').setup()
@@ -35,7 +36,7 @@ function MiniSetup()
     },
     window = {
       focusable = true,
-      show_integration_count = false,
+      show_integration_count = true,
       width = 15
     }
   })
@@ -45,6 +46,21 @@ function MiniSetup()
   local mini_trailspace = require('mini.trailspace')
   mini_trailspace.setup()
   vim.keymap.set('n', '<leader>ts', function() mini_trailspace.trim() end)
+end
+
+function MiniMapSetup()
+  vim.g.minimap_width = 15
+  vim.g.minimap_auto_start = 1
+  vim.g.minimap_auto_start_win_enter = 0
+  vim.g.minimap_left = 0
+  vim.g.minimap_block_filetypes = { 'fugitive', 'nvim-tree', 'tagbar', 'fzf', 'telescope', 'NvimTree', 'NeoTree' }
+  vim.g.minimap_block_buftypes = { 'nofile', 'nowrite', 'quickfix', 'terminal', 'prompt', 'NvimTree', 'NeoTree' }
+  vim.g.minimap_close_filetypes = { 'startify', 'netrw', 'vim-plug', 'NvimTree', 'NeoTree' }
+  vim.g.minimap_highlight_range = 1
+  vim.g.minimap_highlight_search = 1
+  vim.g.minimap_git_colors = 1
+
+  vim.keymap.set('n', 'mm', '<cmd>MinimapToggle<CR>')
 end
 
 function BarbarSetup()
@@ -79,9 +95,35 @@ function BarbarSetup()
     pattern = 'neo-tree'
   })
 
+  require 'bufferline'.setup {
+    icon_pinned = '車',
+    icons = 'both',
+    highlight_inactive_file_icons = true
+  }
+
+  vim.keymap.set('n', '<leader>p', '<cmd>BufferPin<CR>')
+  vim.keymap.set('n', '<A-p>', '<cmd>BufferPick<CR>')
+
   vim.keymap.set('n', 'gt', '<cmd>BufferNext<CR>')
   vim.keymap.set('n', 'gT', '<cmd>BufferPrevious<CR>')
-  vim.keymap.set('n', '<leader>p', '<cmd>BufferPin<CR>')
+  vim.keymap.set('n', '<A-,>', '<Cmd>BufferPrevious<CR>')
+  vim.keymap.set('n', '<A-.>', '<Cmd>BufferNext<CR>')
+
+  vim.keymap.set('n', '<A-,>', '<Cmd>BufferPrevious<CR>')
+  vim.keymap.set('n', '<A-.>', '<Cmd>BufferNext<CR>')
+  vim.keymap.set('n', '<A-<>', '<Cmd>BufferMovePrevious<CR>')
+  vim.keymap.set('n', '<A->>', '<Cmd>BufferMoveNext<CR>')
+
+  vim.keymap.set('n', '<A-1>', '<Cmd>BufferGoto 1<CR>')
+  vim.keymap.set('n', '<A-2>', '<Cmd>BufferGoto 2<CR>')
+  vim.keymap.set('n', '<A-3>', '<Cmd>BufferGoto 3<CR>')
+  vim.keymap.set('n', '<A-4>', '<Cmd>BufferGoto 4<CR>')
+  vim.keymap.set('n', '<A-5>', '<Cmd>BufferGoto 5<CR>')
+  vim.keymap.set('n', '<A-6>', '<Cmd>BufferGoto 6<CR>')
+  vim.keymap.set('n', '<A-7>', '<Cmd>BufferGoto 7<CR>')
+  vim.keymap.set('n', '<A-8>', '<Cmd>BufferGoto 8<CR>')
+  vim.keymap.set('n', '<A-9>', '<Cmd>BufferGoto 9<CR>')
+  vim.keymap.set('n', '<A-0>', '<Cmd>BufferLast<CR>')
 end
 
 function CodeWindowSetup()
@@ -95,9 +137,12 @@ function CodeWindowSetup()
 end
 
 function AerialSetup()
-  require("aerial").setup({
+  local aerial = require("aerial")
+  aerial.setup({
     attach_mode = "global",
+    close_automatic_events = { 'unsupported', 'unfocus' },
     layout = {
+      min_width = { 65, 0.25 },
       default_direction = "left"
     }
   })
@@ -189,6 +234,13 @@ function GitSignsSetup()
   })
 end
 
+function LuaLineSetup()
+  local lualine = require('lualine')
+  lualine.setup {
+    extensions = { 'aerial', 'neo-tree', 'toggleterm' }
+  }
+end
+
 TreeSitterSetup()
 SetupGo()
 MiniSetup()
@@ -198,6 +250,7 @@ TelescopeSetup()
 NeoTreeSetup()
 LspServers()
 GitSignsSetup()
+-- LuaLineSetup()
 
 require('scope').setup()
 require('octo').setup()
