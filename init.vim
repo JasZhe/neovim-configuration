@@ -63,6 +63,7 @@ Plug 'echasnovski/mini.comment', { 'branch': 'stable' }
 Plug 'echasnovski/mini.indentscope', { 'branch': 'stable' }
 Plug 'echasnovski/mini.completion', { 'branch': 'stable' }
 Plug 'echasnovski/mini.map', { 'branch': 'stable' }
+Plug 'echasnovski/mini.starter', { 'branch': 'stable' }
 
 " Code navigation
 Plug 'ray-x/navigator.lua'
@@ -98,9 +99,6 @@ Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' } "required by octor, fuz
 Plug 'MunifTanjim/nui.nvim' " required by octo, cooler ui components
 Plug 'pwntester/octo.nvim' " pr reviews
 Plug 'sindrets/diffview.nvim' " better git patch diff view
-
-" Floating terminal
-Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 
 " MINIMAP
 Plug 'gorbit99/codewindow.nvim'
