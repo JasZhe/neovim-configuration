@@ -64,6 +64,10 @@ Plug 'echasnovski/mini.indentscope', { 'branch': 'stable' }
 Plug 'echasnovski/mini.completion', { 'branch': 'stable' }
 Plug 'echasnovski/mini.map', { 'branch': 'stable' }
 Plug 'echasnovski/mini.starter', { 'branch': 'stable' }
+Plug 'echasnovski/mini.bracketed'
+
+" VIM session saving
+Plug 'tpope/vim-obsession'
 
 " Code navigation
 Plug 'ray-x/navigator.lua'
@@ -78,9 +82,12 @@ Plug 's1n7ax/nvim-window-picker' " enables neo-tree to jump to files more easily
 
 " Adds git changes, line blames etc
 Plug 'lewis6991/gitsigns.nvim'
+Plug 'tpope/vim-fugitive'
 
 " Better status bar
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+" Plug 'nvim-lualine/lualine.nvim'
 
 " Buffer tabs to behave like other IDEs
 Plug 'tiagovla/scope.nvim' " allow scoping of buffers to tabs
@@ -102,12 +109,14 @@ Plug 'sindrets/diffview.nvim' " better git patch diff view
 
 " MINIMAP
 Plug 'gorbit99/codewindow.nvim'
+Plug 'wfxr/minimap.vim', {'branch': 'GH-153_test_fix'}
 
 " Symbols outline
 Plug 'stevearc/aerial.nvim'
 
 " Mardown
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+Plug 'stevearc/gkeep.nvim', { 'do': ':UpdateRemotePlugins' }
 
 " COLOR SCHEMES
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
@@ -115,12 +124,13 @@ Plug 'navarasu/onedark.nvim'
 
 call plug#end()
 
-" barbar settings
-let g:airline#extensions#tabline#enabled = 0 " For barbar buffers to work with airline
-let bufferline = get(g:, 'bufferline', {}) " create bufferline option dict
-let bufferline.icon_pinned = '車'
-let bufferline.icons = 'both'
-let bufferline.highlight_inactive_file_icons = v:true
+" airline stuff
+function! s:AirlineSetup()
+  let g:airline#extensions#tabline#enabled = 0
+  let g:airline_powerline_fonts = 1
+  let g:airline#extensions#lsp#enabled = 1
+  let g:airline_theme = 'luna'
+endfunction
 
 " for barbar keybindings, I want to use the tab navigation for buffer navigation
 " instead. Use the :tabn<i> to change tabs. Think of tabs as workspaces
@@ -132,4 +142,6 @@ cnoreabbrev q BufferClose |" Will need to :quit to actually exit the window
 
 colorscheme tokyonight
 
+call s:AirlineSetup()
+" call s:AirlineSetup()
 lua require 'plugins_setup'
