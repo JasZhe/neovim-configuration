@@ -58,6 +58,7 @@ Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-lua/plenary.nvim' "required by telescope, some lua coroutines or something
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' } "required by octor, fuzzy finder
+Plug 'nvim-telescope/telescope-ui-select.nvim'
 
 " Buffer tabs to behave like other IDEs
 Plug 'tiagovla/scope.nvim' " allow scoping of buffers to tabs
@@ -119,6 +120,8 @@ Plug 'romgrk/barbar.nvim'
 
 " PR reviews and stuff
 Plug 'sindrets/diffview.nvim' " better git patch diff view
+Plug 'ldelossa/gh.nvim'
+Plug 'ldelossa/litee.nvim'
 
 " Symbols outline
 Plug 'stevearc/aerial.nvim'
@@ -131,6 +134,9 @@ Plug 'stevearc/gkeep.nvim', { 'do': ':UpdateRemotePlugins' }
 " COLOR SCHEMES
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 Plug 'navarasu/onedark.nvim'
+
+" Which key
+Plug 'folke/which-key.nvim'
 
 call plug#end()
 
