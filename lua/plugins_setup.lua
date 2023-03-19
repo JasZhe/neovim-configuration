@@ -1,28 +1,9 @@
-function SetupGo()
-  require 'go'.setup({
-    goimport = 'gopls', -- if set to 'gopls' will use golsp format
-    gofmt = 'gopls',    -- if set to gopls will use golsp format
-    max_line_len = 120,
-    tag_transform = false,
-    test_dir = '',
-    comment_placeholder = '   ',
-    lsp_cfg = true,       -- false: use your own lspconfig
-    lsp_gofumpt = true,   -- true: set default gofmt in gopls format to gofumpt
-    lsp_on_attach = true, -- use on_attach from go.nvim
-    lsp_keymaps = false,
-    dap_debug = true,
-  })
-
-  require 'navigator'.setup({
-    keymaps = { { key = "<leader>t", func = vim.lsp.buf.type_definition, desc = "prefer gt mapping for tab navigation" } }
-  })
-end
-
+local vim = vim
+local keymap = vim.keymap.set
 function MiniSetup()
   require('mini.bracketed').setup()
   require('mini.comment').setup()
   require('mini.indentscope').setup()
-  require('mini.completion').setup()
   require('mini.starter').setup()
   local minimap = require('mini.map')
   minimap.setup({
@@ -40,12 +21,12 @@ function MiniSetup()
       width = 15
     }
   })
-  vim.keymap.set('n', '<leader>mm', function() minimap.toggle() end)
-  vim.keymap.set('n', '<leader>mf', function() minimap.toggle_focus() end)
+  keymap('n', '<leader>mm', function() minimap.toggle() end)
+  keymap('n', '<leader>mf', function() minimap.toggle_focus() end)
 
   local mini_trailspace = require('mini.trailspace')
   mini_trailspace.setup()
-  vim.keymap.set('n', '<leader>ts', function() mini_trailspace.trim() end)
+  keymap('n', '<leader>ts', function() mini_trailspace.trim() end)
 end
 
 function MiniMapSetup()
@@ -64,6 +45,8 @@ function MiniMapSetup()
 end
 
 function BarbarSetup()
+  require('scope').setup() -- without this, buffers in other tabs will show up
+
   -- barbar offset with filetree plugins so buffer tab lines up with window
   vim.api.nvim_create_autocmd('FileType', {
     callback = function(tbl)
@@ -101,39 +84,29 @@ function BarbarSetup()
     highlight_inactive_file_icons = true
   }
 
-  vim.keymap.set('n', '<leader>p', '<cmd>BufferPin<CR>')
-  vim.keymap.set('n', '<A-p>', '<cmd>BufferPick<CR>')
+  keymap('n', '<leader>p', '<cmd>BufferPin<CR>')
+  keymap('n', '<A-p>', '<cmd>BufferPick<CR>')
 
-  vim.keymap.set('n', 'gt', '<cmd>BufferNext<CR>')
-  vim.keymap.set('n', 'gT', '<cmd>BufferPrevious<CR>')
-  vim.keymap.set('n', '<A-,>', '<Cmd>BufferPrevious<CR>')
-  vim.keymap.set('n', '<A-.>', '<Cmd>BufferNext<CR>')
+  keymap('n', 'gt', '<cmd>BufferNext<CR>')
+  keymap('n', 'gT', '<cmd>BufferPrevious<CR>')
+  keymap('n', '<A-,>', '<Cmd>BufferPrevious<CR>')
+  keymap('n', '<A-.>', '<Cmd>BufferNext<CR>')
 
-  vim.keymap.set('n', '<A-,>', '<Cmd>BufferPrevious<CR>')
-  vim.keymap.set('n', '<A-.>', '<Cmd>BufferNext<CR>')
-  vim.keymap.set('n', '<A-<>', '<Cmd>BufferMovePrevious<CR>')
-  vim.keymap.set('n', '<A->>', '<Cmd>BufferMoveNext<CR>')
+  keymap('n', '<A-,>', '<Cmd>BufferPrevious<CR>')
+  keymap('n', '<A-.>', '<Cmd>BufferNext<CR>')
+  keymap('n', '<A-<>', '<Cmd>BufferMovePrevious<CR>')
+  keymap('n', '<A->>', '<Cmd>BufferMoveNext<CR>')
 
-  vim.keymap.set('n', '<A-1>', '<Cmd>BufferGoto 1<CR>')
-  vim.keymap.set('n', '<A-2>', '<Cmd>BufferGoto 2<CR>')
-  vim.keymap.set('n', '<A-3>', '<Cmd>BufferGoto 3<CR>')
-  vim.keymap.set('n', '<A-4>', '<Cmd>BufferGoto 4<CR>')
-  vim.keymap.set('n', '<A-5>', '<Cmd>BufferGoto 5<CR>')
-  vim.keymap.set('n', '<A-6>', '<Cmd>BufferGoto 6<CR>')
-  vim.keymap.set('n', '<A-7>', '<Cmd>BufferGoto 7<CR>')
-  vim.keymap.set('n', '<A-8>', '<Cmd>BufferGoto 8<CR>')
-  vim.keymap.set('n', '<A-9>', '<Cmd>BufferGoto 9<CR>')
-  vim.keymap.set('n', '<A-0>', '<Cmd>BufferLast<CR>')
-end
-
-function CodeWindowSetup()
-  local codewindow = require('codewindow')
-  codewindow.setup({
-    show_cursor = false,
-    exclude_filetypes = { "neo-tree", "aerial", "Scratch", "Plugins" }
-  })
-  vim.keymap.set('n', '<leader>cw', function() codewindow.toggle_minimap() end)
-  vim.keymap.set('n', '<leader>cwf', function() codewindow.toggle_focus() end)
+  keymap('n', '<A-1>', '<Cmd>BufferGoto 1<CR>')
+  keymap('n', '<A-2>', '<Cmd>BufferGoto 2<CR>')
+  keymap('n', '<A-3>', '<Cmd>BufferGoto 3<CR>')
+  keymap('n', '<A-4>', '<Cmd>BufferGoto 4<CR>')
+  keymap('n', '<A-5>', '<Cmd>BufferGoto 5<CR>')
+  keymap('n', '<A-6>', '<Cmd>BufferGoto 6<CR>')
+  keymap('n', '<A-7>', '<Cmd>BufferGoto 7<CR>')
+  keymap('n', '<A-8>', '<Cmd>BufferGoto 8<CR>')
+  keymap('n', '<A-9>', '<Cmd>BufferGoto 9<CR>')
+  keymap('n', '<A-0>', '<Cmd>BufferLast<CR>')
 end
 
 function AerialSetup()
@@ -144,51 +117,79 @@ function AerialSetup()
     layout = {
       min_width = { 65, 0.25 },
       default_direction = "left"
-    }
+    },
+    close_on_select = true
   })
   vim.keymap.set('n', '<leader>a', '<cmd>AerialToggle<CR>')
+  -- also setup telescope extension
+  require('telescope').load_extension('aerial')
 end
 
 function TelescopeSetup()
-  -- also setup telescope extension
-  require('telescope').load_extension('aerial')
-  vim.keymap.set('n', '<leader>F', '<cmd>Telescope find_files<cr>')
-  vim.keymap.set('n', '<leader>U', '<cmd>Telescope lsp_references<cr>end')
-  vim.keymap.set('n', '<leader>G', '<cmd>Telescope live_grep<cr>')
-  vim.keymap.set('n', '<leader>B', '<cmd>Telescope buffers<cr>')
-  vim.keymap.set('n', '<leader>th', '<cmd>Telescope help_tags<cr>')
-  vim.keymap.set('n', '<leader>A', '<cmd>Telescope aerial<cr>')
+  keymap('n', '<leader>F', '<cmd>Telescope find_files<cr>')
+  keymap('n', '<leader>U', '<cmd>Telescope lsp_references<cr>')
+  keymap('n', '<leader>G', '<cmd>Telescope live_grep<cr>')
+  keymap('n', '<leader>B', '<cmd>Telescope buffers<cr>')
+  keymap('n', '<leader>th', '<cmd>Telescope help_tags<cr>')
+  keymap('n', '<leader>A', '<cmd>Telescope aerial<cr>')
 end
 
 function NeoTreeSetup()
+  require('window-picker').setup() -- allows us to choose which pane to open file in
   require 'neo-tree'.setup()
   vim.keymap.set('n', '<leader>nt', '<cmd>NeoTreeShowToggle<cr>')
 end
 
 function LspServers()
-  require 'lspconfig'.vimls.setup {}
-  require 'lspconfig'.lua_ls.setup {}
+  local lsp = require('lsp-zero').preset({
+    name = 'recommended',
+    set_lsp_keymaps = true,
+    manage_nvim_cmp = true,
+    suggest_lsp_servers = false,
+  })
+  lsp.setup()
+  lsp.nvim_workspace({
+    library = vim.api.nvim_get_runtime_file('', true)
+  })
+  require('lsp_lines').setup()
+  vim.diagnostic.config({
+    virtual_text = false,
+  })
+  vim.opt.signcolumn = 'yes'
+end
+
+function LspSagaSetup()
+  require("lspsaga").setup({
+  })
+  keymap("n", "<C-]>", "<cmd>Lspsaga lsp_finder<CR>")
+  keymap({"n","v"}, "<leader>ca", "<cmd>Lspsaga code_action<CR>")
+  keymap("n", "gr", "<cmd>Lspsaga rename<CR>")
+  keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>")
+
+  -- Show buffer diagnostics
+  keymap("n", "<leader>sb", "<cmd>Lspsaga show_buf_diagnostics<CR>")
+
+  -- Diagnostic jump
+  -- You can use <C-o> to jump back to your previous location
+  keymap("n", "[e", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
+  keymap("n", "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>")
+
+  -- Diagnostic jump with filters such as only jumping to an error
+  keymap("n", "[E", function()
+    require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR })
+  end)
+  keymap("n", "]E", function()
+    require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR })
+  end)
+
+  -- Toggle outline
+  keymap("n","<leader>o", "<cmd>Lspsaga outline<CR>")
 end
 
 function TreeSitterSetup()
   require 'nvim-treesitter.configs'.setup({
     highlight = { enable = true }
   })
-end
-
-function ToggleTermSetup()
-  require('toggleterm').setup({
-    open_mapping = [[c-\]]
-  })
-  local opts = { buffer = 0 }
-  vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
-  vim.keymap.set('t', 'jk', [[<C-\><C-n>]], opts)
-  vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
-  vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
-  vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
-  vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
-  vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], opts)
-  vim.cmd('autocmd! TermOpen term://* lua ToggleTermSetup()')
 end
 
 function GitSignsSetup()
@@ -199,7 +200,7 @@ function GitSignsSetup()
       local function map(mode, l, r, opts)
         opts = opts or {}
         opts.buffer = bufnr
-        vim.keymap.set(mode, l, r, opts)
+        keymap(mode, l, r, opts)
       end
 
       -- Navigation
@@ -235,23 +236,43 @@ function GitSignsSetup()
 end
 
 function LuaLineSetup()
+  local duck = require('duck')
+  keymap('n', '<leader>ddd', function() duck.hatch('🐤') end, {})
+  keymap('n', '<leader>dep', function() duck.hatch('🍆') end, {})
+  keymap('n', '<leader>dwa', function() duck.hatch('💧') end, {})
+  keymap('n', '<leader>dk', function() duck.cook() end, {})
+end
+
+function FunStuff()
   local lualine = require('lualine')
   lualine.setup {
-    extensions = { 'aerial', 'neo-tree', 'toggleterm' }
+    extensions = { 'aerial', 'neo-tree', 'toggleterm' },
+    sections = {
+      lualine_a = {
+        'mode',
+        function()
+          local animated = {
+            "🥚    ",
+            " 🐣   ",
+            "  🐥  ",
+            "    🐓 ",
+            "     🍗",
+          }
+          return animated[os.date("%S") % #animated + 1]
+        end
+      }
+    }
   }
+  keymap("n", "<leader>fml", "<cmd>CellularAutomaton game_of_life<CR>")
 end
 
 TreeSitterSetup()
-SetupGo()
 MiniSetup()
 BarbarSetup()
-AerialSetup()
 TelescopeSetup()
 NeoTreeSetup()
 LspServers()
 GitSignsSetup()
--- LuaLineSetup()
-
-require('scope').setup()
-require('octo').setup()
-require('window-picker').setup()
+LspSagaSetup()
+LuaLineSetup()
+FunStuff()

@@ -48,37 +48,57 @@ set number "show line numbers on the side
 
 " Vim-plug Plugins
 call plug#begin('~/.vim/plugged')
-" NEOVIM GO SETUP FROM ray-x/go.nvim
-Plug 'neovim/nvim-lspconfig'
+" TREESITTER
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " might need to TSUninstall some of the parsers and reinstall
+
+" fun dev icons
+Plug 'nvim-tree/nvim-web-devicons'
+
+" TELESCOPE
+Plug 'nvim-lua/plenary.nvim' "required by telescope, some lua coroutines or something
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' } "required by octor, fuzzy finder
+
+" Buffer tabs to behave like other IDEs
+Plug 'tiagovla/scope.nvim' " allow scoping of buffers to tabs
+Plug 'romgrk/barbar.nvim'
+
+" Side bar file navigation, NOTE :NeoTreeShowInSplit is really useful
+" H to hide or show hidden files
+Plug 'MunifTanjim/nui.nvim' " required by neo-tree for cooler ui components
+Plug 'nvim-neo-tree/neo-tree.nvim'
+Plug 's1n7ax/nvim-window-picker' " enables neo-tree to choose which pane to open file in
+
+" Debugger
 Plug 'mfussenegger/nvim-dap'
+Plug 'leoluz/nvim-dap-go'
 Plug 'rcarriga/nvim-dap-ui'
 Plug 'theHamsta/nvim-dap-virtual-text'
-Plug 'ray-x/guihua.lua', {'do': 'cd lua/fzy && make' } " float term, codeaction and codelens gui support
-Plug 'ray-x/go.nvim'
+
+" LSP STUFF
+Plug 'neovim/nvim-lspconfig'
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
+" Autocompletion Engine
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+"  Snippets
+Plug 'L3MON4D3/LuaSnip'
+Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v1.x'}
+" End LSP Zero"
+Plug 'glepnir/lspsaga.nvim'
+
 
 " MINI plugins
 Plug 'echasnovski/mini.trailspace', { 'branch': 'stable' }
 Plug 'echasnovski/mini.comment', { 'branch': 'stable' }
 Plug 'echasnovski/mini.indentscope', { 'branch': 'stable' }
-Plug 'echasnovski/mini.completion', { 'branch': 'stable' }
 Plug 'echasnovski/mini.map', { 'branch': 'stable' }
 Plug 'echasnovski/mini.starter', { 'branch': 'stable' }
 Plug 'echasnovski/mini.bracketed'
 
 " VIM session saving
 Plug 'tpope/vim-obsession'
-
-" Code navigation
-Plug 'ray-x/navigator.lua'
-
-" fun dev icons
-Plug 'nvim-tree/nvim-web-devicons'
-
-" Side bar file navigation, NOTE :NeoTreeShowInSplit is really useful
-" H to hide or show hidden files
-Plug 'nvim-neo-tree/neo-tree.nvim'
-Plug 's1n7ax/nvim-window-picker' " enables neo-tree to jump to files more easily or something
 
 " Adds git changes, line blames etc
 Plug 'lewis6991/gitsigns.nvim'
@@ -87,35 +107,25 @@ Plug 'tpope/vim-fugitive'
 " Better status bar
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-" Plug 'nvim-lualine/lualine.nvim'
+Plug 'nvim-lualine/lualine.nvim'
+
+" FUN STUFF
+Plug 'tamton-aquib/duck.nvim'
+Plug 'eandrju/cellular-automaton.nvim'
 
 " Buffer tabs to behave like other IDEs
 Plug 'tiagovla/scope.nvim' " allow scoping of buffers to tabs
 Plug 'romgrk/barbar.nvim'
 
-" Autocomplete
-Plug 'ms-jpq/coq_nvim', {'branch': 'coq', 'do': ':COQnow'}
-
-
-" TELESCOPE
-Plug 'nvim-lua/plenary.nvim' "required by telescope, some lua coroutines or something
-Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' } "required by octor, fuzzy finder
-
 " PR reviews and stuff
-Plug 'MunifTanjim/nui.nvim' " required by octo, cooler ui components
-Plug 'pwntester/octo.nvim' " pr reviews
 Plug 'sindrets/diffview.nvim' " better git patch diff view
-
-" MINIMAP
-Plug 'gorbit99/codewindow.nvim'
-Plug 'wfxr/minimap.vim', {'branch': 'GH-153_test_fix'}
 
 " Symbols outline
 Plug 'stevearc/aerial.nvim'
 
 " Mardown
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+" Google keep integration
 Plug 'stevearc/gkeep.nvim', { 'do': ':UpdateRemotePlugins' }
 
 " COLOR SCHEMES
@@ -136,12 +146,12 @@ endfunction
 " instead. Use the :tabn<i> to change tabs. Think of tabs as workspaces
 map gt <Nop>
 map gT <Nop>
+map <C-]> <Nop>
 
 " https://stackoverflow.com/questions/4115841/is-it-possible-to-remap-wq-to-save-and-close-the-current-buffer-instead-of-sav
 cnoreabbrev q BufferClose |" Will need to :quit to actually exit the window
 
 colorscheme tokyonight
 
-call s:AirlineSetup()
 " call s:AirlineSetup()
 lua require 'plugins_setup'
