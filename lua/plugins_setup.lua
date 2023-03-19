@@ -148,9 +148,11 @@ function LspServers()
     suggest_lsp_servers = false,
   })
   lsp.setup()
+  keymap("n", "<leader>ff", "<cmd>LspZeroFormat<CR>")
   lsp.nvim_workspace({
     library = vim.api.nvim_get_runtime_file('', true)
   })
+
   require('lsp_lines').setup()
   vim.diagnostic.config({
     virtual_text = false,
@@ -162,7 +164,7 @@ function LspSagaSetup()
   require("lspsaga").setup({
   })
   keymap("n", "<C-]>", "<cmd>Lspsaga lsp_finder<CR>")
-  keymap({"n","v"}, "<leader>ca", "<cmd>Lspsaga code_action<CR>")
+  keymap({ "n", "v" }, "<leader>ca", "<cmd>Lspsaga code_action<CR>")
   keymap("n", "gr", "<cmd>Lspsaga rename<CR>")
   keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>")
 
@@ -183,13 +185,75 @@ function LspSagaSetup()
   end)
 
   -- Toggle outline
-  keymap("n","<leader>o", "<cmd>Lspsaga outline<CR>")
+  keymap("n", "<leader>o", "<cmd>Lspsaga outline<CR>")
 end
 
 function TreeSitterSetup()
   require 'nvim-treesitter.configs'.setup({
     highlight = { enable = true }
   })
+end
+
+function Github()
+  require('litee.lib').setup()
+  require('litee.gh').setup()
+end
+
+function WhichKey()
+  vim.o.timeout = true
+  vim.o.timeoutlen = 300
+  local whichkey = require('which-key')
+  whichkey.setup()
+  whichkey.register({
+    g = {
+      name = "+Git",
+      h = {
+        name = "+Github",
+        c = {
+          name = "+Commits",
+          c = { "<cmd>GHCloseCommit<cr>", "Close" },
+          e = { "<cmd>GHExpandCommit<cr>", "Expand" },
+          o = { "<cmd>GHOpenToCommit<cr>", "Open To" },
+          p = { "<cmd>GHPopOutCommit<cr>", "Pop Out" },
+          z = { "<cmd>GHCollapseCommit<cr>", "Collapse" },
+        },
+        i = {
+          name = "+Issues",
+          p = { "<cmd>GHPreviewIssue<cr>", "Preview" },
+        },
+        l = {
+          name = "+Litee",
+          t = { "<cmd>LTPanel<cr>", "Toggle Panel" },
+        },
+        r = {
+          name = "+Review",
+          b = { "<cmd>GHStartReview<cr>", "Begin" },
+          c = { "<cmd>GHCloseReview<cr>", "Close" },
+          d = { "<cmd>GHDeleteReview<cr>", "Delete" },
+          e = { "<cmd>GHExpandReview<cr>", "Expand" },
+          s = { "<cmd>GHSubmitReview<cr>", "Submit" },
+          z = { "<cmd>GHCollapseReview<cr>", "Collapse" },
+        },
+        p = {
+          name = "+Pull Request",
+          c = { "<cmd>GHClosePR<cr>", "Close" },
+          d = { "<cmd>GHPRDetails<cr>", "Details" },
+          e = { "<cmd>GHExpandPR<cr>", "Expand" },
+          o = { "<cmd>GHOpenPR<cr>", "Open" },
+          p = { "<cmd>GHPopOutPR<cr>", "PopOut" },
+          r = { "<cmd>GHRefreshPR<cr>", "Refresh" },
+          t = { "<cmd>GHOpenToPR<cr>", "Open To" },
+          z = { "<cmd>GHCollapsePR<cr>", "Collapse" },
+        },
+        t = {
+          name = "+Threads",
+          c = { "<cmd>GHCreateThread<cr>", "Create" },
+          n = { "<cmd>GHNextThread<cr>", "Next" },
+          t = { "<cmd>GHToggleThread<cr>", "Toggle" },
+        },
+      },
+    },
+  }, { prefix = "<leader>" })
 end
 
 function GitSignsSetup()
@@ -276,3 +340,5 @@ GitSignsSetup()
 LspSagaSetup()
 LuaLineSetup()
 FunStuff()
+Github()
+WhichKey()
