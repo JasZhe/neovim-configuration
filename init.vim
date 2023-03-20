@@ -112,10 +112,7 @@ Plug 'echasnovski/mini.bracketed'
 " more indent lines
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'folke/todo-comments.nvim'
-
-
-" VIM session saving
-Plug 'tpope/vim-obsession'
+Plug 'karb94/neoscroll.nvim'
 
 
 " Adds git changes, line blames etc

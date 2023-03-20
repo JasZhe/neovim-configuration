@@ -353,6 +353,7 @@ function FunStuff()
     })
   keymap('n', '<leader>dk', function() duck.cook() end, {})
   require("presence").setup()
+  require('neoscroll').setup()
 end
 
 function LeapSetup() require('leap').add_default_mappings() end
