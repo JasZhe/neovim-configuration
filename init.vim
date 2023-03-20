@@ -138,6 +138,10 @@ Plug 'navarasu/onedark.nvim'
 " Which key
 Plug 'folke/which-key.nvim'
 
+" Leap
+Plug 'tpope/vim-repeat'
+Plug 'ggandor/leap.nvim'
+
 call plug#end()
 
 " airline stuff

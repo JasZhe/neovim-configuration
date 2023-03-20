@@ -123,6 +123,7 @@ function AerialSetup()
   vim.keymap.set('n', '<leader>a', '<cmd>AerialToggle<CR>')
   -- also setup telescope extension
   require('telescope').load_extension('aerial')
+  keymap('n', '<leader>A', '<cmd>Telescope aerial<cr>')
 end
 
 function TelescopeSetup()
@@ -131,7 +132,6 @@ function TelescopeSetup()
   keymap('n', '<leader>G', '<cmd>Telescope live_grep<cr>')
   keymap('n', '<leader>B', '<cmd>Telescope buffers<cr>')
   keymap('n', '<leader>th', '<cmd>Telescope help_tags<cr>')
-  keymap('n', '<leader>A', '<cmd>Telescope aerial<cr>')
 end
 
 function NeoTreeSetup()
@@ -199,6 +199,8 @@ function Github()
   require('litee.gh').setup()
 end
 
+-- TODO have some of these functions return mappings that we can pass into whichkey, so we can have a central place for the keybindings
+
 function WhichKey()
   vim.o.timeout = true
   vim.o.timeoutlen = 300
@@ -208,6 +210,7 @@ function WhichKey()
     g = {
       name = "+Git",
       h = {
+        -- Probably can get rid of a couple of these
         name = "+Github",
         c = {
           name = "+Commits",
@@ -301,9 +304,24 @@ end
 
 function LuaLineSetup()
   local duck = require('duck')
-  keymap('n', '<leader>ddd', function() duck.hatch('🐤') end, {})
-  keymap('n', '<leader>dep', function() duck.hatch('🍆') end, {})
-  keymap('n', '<leader>dwa', function() duck.hatch('💧') end, {})
+  vim.api.nvim_create_user_command('Duck',
+    function(opts)
+      if (opts.args == 'duck') then
+        duck.hatch('🐤')
+      elseif (opts.args == 'eggplant') then
+        duck.hatch('🍆')
+      elseif (opts.args == 'water') then
+        duck.hatch('💧')
+      elseif (opts.args == 'kill') then
+        duck.cook()
+      else
+        duck.hatch()
+      end
+    end,
+    {
+      nargs = 1,
+      complete = function(_, _, _) return { 'duck', 'eggplant', 'water', 'kill' } end
+    })
   keymap('n', '<leader>dk', function() duck.cook() end, {})
 end
 
@@ -330,6 +348,10 @@ function FunStuff()
   keymap("n", "<leader>fml", "<cmd>CellularAutomaton game_of_life<CR>")
 end
 
+function Leap()
+  require('leap').add_default_mappings()
+end
+
 TreeSitterSetup()
 MiniSetup()
 BarbarSetup()
@@ -342,3 +364,4 @@ LuaLineSetup()
 FunStuff()
 Github()
 WhichKey()
+Leap()
