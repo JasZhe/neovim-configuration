@@ -91,6 +91,10 @@ Plug 'L3MON4D3/LuaSnip'
 Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v1.x'}
 " End LSP Zero"
 Plug 'glepnir/lspsaga.nvim'
+" better diagnostic ui
+Plug 'folke/trouble.nvim'
+Plug 'rcarriga/nvim-notify'
+Plug 'folke/noice.nvim'
 
 
 " MINI plugins
@@ -105,7 +109,7 @@ Plug 'echasnovski/mini.bracketed'
 " VIM session saving
 Plug 'tpope/vim-obsession'
 
- 
+
 " Adds git changes, line blames etc
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'tpope/vim-fugitive'

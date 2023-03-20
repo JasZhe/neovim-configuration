@@ -155,10 +155,6 @@ function LspServers()
     library = vim.api.nvim_get_runtime_file('', true)
   })
 
-  require('lsp_lines').setup()
-  vim.diagnostic.config({
-    virtual_text = false,
-  })
   vim.opt.signcolumn = 'yes'
 end
 
@@ -201,7 +197,7 @@ function TreeSitterSetup()
   require 'nvim-treesitter.configs'.setup({
     highlight = { enable = true }
   })
-  require'treesitter-context'.setup{}
+  require 'treesitter-context'.setup {}
 end
 
 function Github()
@@ -359,13 +355,9 @@ function FunStuff()
   require("presence").setup()
 end
 
-function LeapSetup()
-  require('leap').add_default_mappings()
-end
+function LeapSetup() require('leap').add_default_mappings() end
 
-function ResetSetup()
-  require("rest-nvim").setup()
-end
+function ResetSetup() require("rest-nvim").setup() end
 
 function TwilightSetup()
   require("twilight").setup {}
@@ -376,6 +368,22 @@ function TwilightSetup()
   }
   keymap("n", "<leader>ZM", "<cmd>ZenMode<CR>")
 end
+
+function LspLines()
+  require('lsp_lines').setup()
+  vim.diagnostic.config({
+    virtual_text = false,
+  })
+end
+
+function TroubleSetup()
+  require("trouble").setup {}
+  vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
+    { silent = true, noremap = true }
+  )
+end
+
+function Noice() require('noice').setup() end
 
 TreeSitterSetup()
 MiniSetup()
@@ -392,3 +400,6 @@ WhichKey()
 LeapSetup()
 ResetSetup()
 TwilightSetup()
+LspLines()
+TroubleSetup()
+Noice()
