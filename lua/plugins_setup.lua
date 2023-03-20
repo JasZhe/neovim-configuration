@@ -86,6 +86,7 @@ function BarbarSetup()
 
   keymap('n', '<leader>p', '<cmd>BufferPin<CR>')
   keymap('n', '<A-p>', '<cmd>BufferPick<CR>')
+  keymap('n', '<A-c>', '<cmd>BufferClose<CR>')
 
   keymap('n', 'gt', '<cmd>BufferNext<CR>')
   keymap('n', 'gT', '<cmd>BufferPrevious<CR>')
@@ -100,7 +101,7 @@ function BarbarSetup()
   keymap('n', '<A-1>', '<Cmd>BufferGoto 1<CR>')
   keymap('n', '<A-2>', '<Cmd>BufferGoto 2<CR>')
   keymap('n', '<A-3>', '<Cmd>BufferGoto 3<CR>')
-  keymap('n', '<A-4>', '<Cmd>BufferGoto 4<CR>')
+  keymap('n', '<A-2>', '<Cmd>BufferGoto 4<CR>')
   keymap('n', '<A-5>', '<Cmd>BufferGoto 5<CR>')
   keymap('n', '<A-6>', '<Cmd>BufferGoto 6<CR>')
   keymap('n', '<A-7>', '<Cmd>BufferGoto 7<CR>')
@@ -132,6 +133,7 @@ function TelescopeSetup()
   keymap('n', '<leader>G', '<cmd>Telescope live_grep<cr>')
   keymap('n', '<leader>B', '<cmd>Telescope buffers<cr>')
   keymap('n', '<leader>th', '<cmd>Telescope help_tags<cr>')
+  require("telescope").load_extension("ui-select")
 end
 
 function NeoTreeSetup()
@@ -162,10 +164,17 @@ end
 
 function LspSagaSetup()
   require("lspsaga").setup({
+    outline = {
+      keys = {
+        jump = "<CR>"
+      },
+      auto_close = true
+    }
   })
   keymap("n", "<C-]>", "<cmd>Lspsaga lsp_finder<CR>")
   keymap({ "n", "v" }, "<leader>ca", "<cmd>Lspsaga code_action<CR>")
   keymap("n", "gr", "<cmd>Lspsaga rename<CR>")
+  keymap("n", "gR", "<cmd>Lspsaga rename ++project<CR>")
   keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>")
 
   -- Show buffer diagnostics
@@ -192,6 +201,7 @@ function TreeSitterSetup()
   require 'nvim-treesitter.configs'.setup({
     highlight = { enable = true }
   })
+  require'treesitter-context'.setup{}
 end
 
 function Github()
@@ -303,29 +313,6 @@ function GitSignsSetup()
 end
 
 function LuaLineSetup()
-  local duck = require('duck')
-  vim.api.nvim_create_user_command('Duck',
-    function(opts)
-      if (opts.args == 'duck') then
-        duck.hatch('🐤')
-      elseif (opts.args == 'eggplant') then
-        duck.hatch('🍆')
-      elseif (opts.args == 'water') then
-        duck.hatch('💧')
-      elseif (opts.args == 'kill') then
-        duck.cook()
-      else
-        duck.hatch()
-      end
-    end,
-    {
-      nargs = 1,
-      complete = function(_, _, _) return { 'duck', 'eggplant', 'water', 'kill' } end
-    })
-  keymap('n', '<leader>dk', function() duck.cook() end, {})
-end
-
-function FunStuff()
   local lualine = require('lualine')
   lualine.setup {
     extensions = { 'aerial', 'neo-tree', 'toggleterm' },
@@ -345,11 +332,49 @@ function FunStuff()
       }
     }
   }
-  keymap("n", "<leader>fml", "<cmd>CellularAutomaton game_of_life<CR>")
 end
 
-function Leap()
+function FunStuff()
+  keymap("n", "<leader>fml", "<cmd>CellularAutomaton game_of_life<CR>")
+  local duck = require('duck')
+  vim.api.nvim_create_user_command('Duck',
+    function(opts)
+      if (opts.args == 'duck') then
+        duck.hatch('🐤')
+      elseif (opts.args == 'eggplant') then
+        duck.hatch('🍆')
+      elseif (opts.args == 'water') then
+        duck.hatch('💧')
+      elseif (opts.args == 'cook') then
+        duck.cook()
+      else
+        duck.hatch()
+      end
+    end,
+    {
+      nargs = 1,
+      complete = function(_, _, _) return { 'duck', 'eggplant', 'water', 'cook' } end
+    })
+  keymap('n', '<leader>dk', function() duck.cook() end, {})
+  require("presence").setup()
+end
+
+function LeapSetup()
   require('leap').add_default_mappings()
+end
+
+function ResetSetup()
+  require("rest-nvim").setup()
+end
+
+function TwilightSetup()
+  require("twilight").setup {}
+  require("zen-mode").setup {
+    window = {
+      width = 140
+    }
+  }
+  keymap("n", "<leader>ZM", "<cmd>ZenMode<CR>")
 end
 
 TreeSitterSetup()
@@ -364,4 +389,6 @@ LuaLineSetup()
 FunStuff()
 Github()
 WhichKey()
-Leap()
+LeapSetup()
+ResetSetup()
+TwilightSetup()

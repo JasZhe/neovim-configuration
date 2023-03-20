@@ -50,6 +50,7 @@ set number "show line numbers on the side
 call plug#begin('~/.vim/plugged')
 " TREESITTER
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " might need to TSUninstall some of the parsers and reinstall
+Plug 'nvim-treesitter/nvim-treesitter-context'
 
 " fun dev icons
 Plug 'nvim-tree/nvim-web-devicons'
@@ -113,6 +114,8 @@ Plug 'nvim-lualine/lualine.nvim'
 " FUN STUFF
 Plug 'tamton-aquib/duck.nvim'
 Plug 'eandrju/cellular-automaton.nvim'
+Plug 'andweeb/presence.nvim'
+Plug 'danilamihailov/beacon.nvim'
 
 " Buffer tabs to behave like other IDEs
 Plug 'tiagovla/scope.nvim' " allow scoping of buffers to tabs
@@ -130,6 +133,11 @@ Plug 'stevearc/aerial.nvim'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 " Google keep integration
 Plug 'stevearc/gkeep.nvim', { 'do': ':UpdateRemotePlugins' }
+" REST Client
+Plug 'rest-nvim/rest.nvim'
+
+" Better quick fix
+Plug 'kevinhwang91/nvim-bqf'
 
 " COLOR SCHEMES
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
@@ -141,6 +149,10 @@ Plug 'folke/which-key.nvim'
 " Leap
 Plug 'tpope/vim-repeat'
 Plug 'ggandor/leap.nvim'
+
+" Focus plugins
+Plug 'folke/twilight.nvim'
+Plug 'folke/zen-mode.nvim'
 
 call plug#end()
 
@@ -159,7 +171,8 @@ map gT <Nop>
 map <C-]> <Nop>
 
 " https://stackoverflow.com/questions/4115841/is-it-possible-to-remap-wq-to-save-and-close-the-current-buffer-instead-of-sav
-cnoreabbrev q BufferClose |" Will need to :quit to actually exit the window
+" too many problems with :q on random windows, better to just be more explicit
+cnoreabbrev q Duck duck |" Will need to :quit to actually exit the window,
 
 colorscheme tokyonight
 
