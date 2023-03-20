@@ -378,12 +378,29 @@ end
 
 function TroubleSetup()
   require("trouble").setup {}
+  require('todo-comments').setup()
   vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
     { silent = true, noremap = true }
   )
 end
 
 function Noice() require('noice').setup() end
+
+function NeOrgSetup()
+  require('neorg').setup {
+    load = {
+        ["core.defaults"] = {}, -- Loads default behaviour
+        ["core.norg.concealer"] = {}, -- Adds pretty icons to your documents
+        ["core.norg.dirman"] = { -- Manages Neorg workspaces
+            config = {
+                workspaces = {
+                    notes = "~/notes",
+                },
+            },
+        },
+    },
+}
+end
 
 TreeSitterSetup()
 MiniSetup()

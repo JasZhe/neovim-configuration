@@ -46,6 +46,10 @@ endif
 
 set number "show line numbers on the side
 
+
+" TODO: probably gotta switch to a different plugin manager at some point to
+" organize these better
+
 " Vim-plug Plugins
 call plug#begin('~/.vim/plugged')
 " TREESITTER
@@ -65,8 +69,8 @@ Plug 'tiagovla/scope.nvim' " allow scoping of buffers to tabs
 Plug 'romgrk/barbar.nvim'
 
 
-" Side bar file navigation, NOTE :NeoTreeShowInSplit is really useful
-" H to hide or show hidden files
+" Side bar file navigation, 
+" NOTE :NeoTreeShowInSplit is really useful, H to hide or show hidden files
 Plug 'MunifTanjim/nui.nvim' " required by neo-tree for cooler ui components
 Plug 'nvim-neo-tree/neo-tree.nvim'
 Plug 's1n7ax/nvim-window-picker' " enables neo-tree to choose which pane to open file in
@@ -97,6 +101,7 @@ Plug 'rcarriga/nvim-notify'
 Plug 'folke/noice.nvim'
 
 
+" QOL stuff
 " MINI plugins
 Plug 'echasnovski/mini.trailspace', { 'branch': 'stable' }
 Plug 'echasnovski/mini.comment', { 'branch': 'stable' }
@@ -104,6 +109,9 @@ Plug 'echasnovski/mini.indentscope', { 'branch': 'stable' }
 Plug 'echasnovski/mini.map', { 'branch': 'stable' }
 Plug 'echasnovski/mini.starter', { 'branch': 'stable' }
 Plug 'echasnovski/mini.bracketed'
+" more indent lines
+Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'folke/todo-comments.nvim'
 
 
 " VIM session saving
@@ -173,6 +181,10 @@ Plug 'ggandor/leap.nvim'
 " Focus plugins
 Plug 'folke/twilight.nvim'
 Plug 'folke/zen-mode.nvim'
+
+
+" NEORG
+Plug 'nvim-neorg/neorg'
 
 call plug#end()
 
