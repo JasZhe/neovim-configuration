@@ -52,8 +52,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " might need to TSUninstall some of the parsers and reinstall
 Plug 'nvim-treesitter/nvim-treesitter-context'
 
-" fun dev icons
-Plug 'nvim-tree/nvim-web-devicons'
 
 " TELESCOPE
 Plug 'nvim-lua/plenary.nvim' "required by telescope, some lua coroutines or something
@@ -61,9 +59,11 @@ Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' } "required by octor, fuzzy finder
 Plug 'nvim-telescope/telescope-ui-select.nvim'
 
+
 " Buffer tabs to behave like other IDEs
 Plug 'tiagovla/scope.nvim' " allow scoping of buffers to tabs
 Plug 'romgrk/barbar.nvim'
+
 
 " Side bar file navigation, NOTE :NeoTreeShowInSplit is really useful
 " H to hide or show hidden files
@@ -71,11 +71,13 @@ Plug 'MunifTanjim/nui.nvim' " required by neo-tree for cooler ui components
 Plug 'nvim-neo-tree/neo-tree.nvim'
 Plug 's1n7ax/nvim-window-picker' " enables neo-tree to choose which pane to open file in
 
+
 " Debugger
 Plug 'mfussenegger/nvim-dap'
 Plug 'leoluz/nvim-dap-go'
 Plug 'rcarriga/nvim-dap-ui'
 Plug 'theHamsta/nvim-dap-virtual-text'
+
 
 " LSP STUFF
 Plug 'neovim/nvim-lspconfig'
@@ -99,35 +101,44 @@ Plug 'echasnovski/mini.map', { 'branch': 'stable' }
 Plug 'echasnovski/mini.starter', { 'branch': 'stable' }
 Plug 'echasnovski/mini.bracketed'
 
+
 " VIM session saving
 Plug 'tpope/vim-obsession'
 
+ 
 " Adds git changes, line blames etc
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'tpope/vim-fugitive'
+" PR reviews and stuff
+Plug 'sindrets/diffview.nvim' " better git patch diff view
+Plug 'ldelossa/gh.nvim'
+Plug 'ldelossa/litee.nvim'
+Plug 'rhysd/committia.vim' " better git commit window in terminal
+
 
 " Better status bar
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'nvim-lualine/lualine.nvim'
 
+
 " FUN STUFF
 Plug 'tamton-aquib/duck.nvim'
 Plug 'eandrju/cellular-automaton.nvim'
 Plug 'andweeb/presence.nvim'
 Plug 'danilamihailov/beacon.nvim'
+" fun dev icons
+Plug 'nvim-tree/nvim-web-devicons'
+
 
 " Buffer tabs to behave like other IDEs
 Plug 'tiagovla/scope.nvim' " allow scoping of buffers to tabs
 Plug 'romgrk/barbar.nvim'
 
-" PR reviews and stuff
-Plug 'sindrets/diffview.nvim' " better git patch diff view
-Plug 'ldelossa/gh.nvim'
-Plug 'ldelossa/litee.nvim'
 
 " Symbols outline
 Plug 'stevearc/aerial.nvim'
+
 
 " Mardown
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
@@ -136,19 +147,24 @@ Plug 'stevearc/gkeep.nvim', { 'do': ':UpdateRemotePlugins' }
 " REST Client
 Plug 'rest-nvim/rest.nvim'
 
+
 " Better quick fix
 Plug 'kevinhwang91/nvim-bqf'
+
 
 " COLOR SCHEMES
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 Plug 'navarasu/onedark.nvim'
 
+
 " Which key
 Plug 'folke/which-key.nvim'
+
 
 " Leap
 Plug 'tpope/vim-repeat'
 Plug 'ggandor/leap.nvim'
+
 
 " Focus plugins
 Plug 'folke/twilight.nvim'
