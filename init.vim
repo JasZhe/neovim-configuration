@@ -202,6 +202,10 @@ map gt <Nop>
 map gT <Nop>
 map <C-]> <Nop>
 
+" NOTE: Map <C-c> to <ESC> in insert mode so we send a leave event so neorg
+" parses correctly
+inoremap <C-c> <ESC>
+
 " https://stackoverflow.com/questions/4115841/is-it-possible-to-remap-wq-to-save-and-close-the-current-buffer-instead-of-sav
 " too many problems with :q on random windows, better to just be more explicit
 cnoreabbrev q Duck duck |" Will need to :quit to actually exit the window,
