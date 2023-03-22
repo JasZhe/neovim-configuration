@@ -50,14 +50,14 @@ set number "show line numbers on the side
 " TODO: probably gotta switch to a different plugin manager at some point to
 " organize these better
 
-" Vim-plug Plugins
+" NOTE: Vim-plug Plugins
 call plug#begin('~/.vim/plugged')
-" TREESITTER
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " might need to TSUninstall some of the parsers and reinstall
+" NOTE: TREESITTER
+Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate'} " might need to TSUninstall some of the parsers and reinstall
 Plug 'nvim-treesitter/nvim-treesitter-context'
 
 
-" TELESCOPE
+" NOTE: TELESCOPE
 Plug 'nvim-lua/plenary.nvim' "required by telescope, some lua coroutines or something
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' } "required by octor, fuzzy finder
@@ -69,21 +69,21 @@ Plug 'tiagovla/scope.nvim' " allow scoping of buffers to tabs
 Plug 'romgrk/barbar.nvim'
 
 
-" Side bar file navigation, 
+" Side bar file navigation,
 " NOTE :NeoTreeShowInSplit is really useful, H to hide or show hidden files
 Plug 'MunifTanjim/nui.nvim' " required by neo-tree for cooler ui components
 Plug 'nvim-neo-tree/neo-tree.nvim'
 Plug 's1n7ax/nvim-window-picker' " enables neo-tree to choose which pane to open file in
 
 
-" Debugger
+" NOTE: Debugger
 Plug 'mfussenegger/nvim-dap'
 Plug 'leoluz/nvim-dap-go'
 Plug 'rcarriga/nvim-dap-ui'
 Plug 'theHamsta/nvim-dap-virtual-text'
 
 
-" LSP STUFF
+" NOTE: LSP STUFF
 Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
@@ -93,15 +93,16 @@ Plug 'hrsh7th/cmp-nvim-lsp'
 "  Snippets
 Plug 'L3MON4D3/LuaSnip'
 Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v1.x'}
-" End LSP Zero"
+
 Plug 'glepnir/lspsaga.nvim'
 " better diagnostic ui
 Plug 'folke/trouble.nvim'
 Plug 'rcarriga/nvim-notify'
 Plug 'folke/noice.nvim'
+Plug 'jose-elias-alvarez/null-ls.nvim'
 
 
-" QOL stuff
+" NOTE: QOL stuff
 " MINI plugins
 Plug 'echasnovski/mini.trailspace', { 'branch': 'stable' }
 Plug 'echasnovski/mini.comment', { 'branch': 'stable' }
@@ -113,8 +114,10 @@ Plug 'echasnovski/mini.bracketed'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'folke/todo-comments.nvim'
 Plug 'karb94/neoscroll.nvim'
+Plug 'chrisbra/csv.vim'
 
 
+" NOTE: Git stuff
 " Adds git changes, line blames etc
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'tpope/vim-fugitive'
@@ -125,13 +128,13 @@ Plug 'ldelossa/litee.nvim'
 Plug 'rhysd/committia.vim' " better git commit window in terminal
 
 
-" Better status bar
+" NOTE: Better status bar
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'nvim-lualine/lualine.nvim'
 
 
-" FUN STUFF
+" NOTE: FUN STUFF
 Plug 'tamton-aquib/duck.nvim'
 Plug 'eandrju/cellular-automaton.nvim'
 Plug 'andweeb/presence.nvim'
@@ -140,7 +143,7 @@ Plug 'danilamihailov/beacon.nvim'
 Plug 'nvim-tree/nvim-web-devicons'
 
 
-" Buffer tabs to behave like other IDEs
+" NOTE: Buffer tabs to behave like other IDEs
 Plug 'tiagovla/scope.nvim' " allow scoping of buffers to tabs
 Plug 'romgrk/barbar.nvim'
 
@@ -181,7 +184,7 @@ Plug 'folke/zen-mode.nvim'
 
 
 " NEORG
-Plug 'nvim-neorg/neorg'
+Plug 'nvim-neorg/neorg', { 'do': ':Neorg sync-parsers' }
 
 call plug#end()
 

@@ -130,10 +130,38 @@ end
 function TelescopeSetup()
   keymap('n', '<leader>F', '<cmd>Telescope find_files<cr>')
   keymap('n', '<leader>U', '<cmd>Telescope lsp_references<cr>')
-  keymap('n', '<leader>G', '<cmd>Telescope live_grep<cr>')
   keymap('n', '<leader>B', '<cmd>Telescope buffers<cr>')
   keymap('n', '<leader>th', '<cmd>Telescope help_tags<cr>')
   require("telescope").load_extension("ui-select")
+
+  function vim.getVisualSelection()
+    vim.cmd('noau normal! "vy"')
+    local text = vim.fn.getreg('v')
+    vim.fn.setreg('v', {})
+
+    text = string.gsub(text, "\n", "")
+    if #text > 0 then
+      return text
+    else
+      return ''
+    end
+  end
+
+  -- NOTE: this portion allows us to visual select and then fuzzy find the selection
+  local tb = require('telescope.builtin')
+  local opts = { noremap = true, silent = true }
+
+  keymap('n', '<space>gb', ':Telescope current_buffer_fuzzy_find<cr>', opts)
+  keymap('v', '<space>gb', function()
+    local text = vim.getVisualSelection()
+    tb.current_buffer_fuzzy_find({ default_text = text })
+  end, opts)
+
+  keymap('n', '<space>G', ':Telescope live_grep<cr>', opts)
+  keymap('v', '<space>G', function()
+    local text = vim.getVisualSelection()
+    tb.live_grep({ default_text = text })
+  end, opts)
 end
 
 function NeoTreeSetup()
@@ -154,8 +182,15 @@ function LspServers()
   lsp.nvim_workspace({
     library = vim.api.nvim_get_runtime_file('', true)
   })
-
   vim.opt.signcolumn = 'yes'
+
+  local null_ls = require("null-ls")
+  null_ls.setup {
+    sources = {
+      null_ls.builtins.formatting.goimports,
+      null_ls.builtins.completion.spell
+    }
+  }
 end
 
 function LspSagaSetup()
@@ -202,7 +237,7 @@ end
 
 function Github()
   require('litee.lib').setup()
-  require('litee.gh').setup()
+  require('litee.gh').setup({ icon_set = "nerd" })
 end
 
 -- TODO have some of these functions return mappings that we can pass into whichkey, so we can have a central place for the keybindings
@@ -212,57 +247,6 @@ function WhichKey()
   vim.o.timeoutlen = 300
   local whichkey = require('which-key')
   whichkey.setup()
-  whichkey.register({
-    g = {
-      name = "+Git",
-      h = {
-        -- Probably can get rid of a couple of these
-        name = "+Github",
-        c = {
-          name = "+Commits",
-          c = { "<cmd>GHCloseCommit<cr>", "Close" },
-          e = { "<cmd>GHExpandCommit<cr>", "Expand" },
-          o = { "<cmd>GHOpenToCommit<cr>", "Open To" },
-          p = { "<cmd>GHPopOutCommit<cr>", "Pop Out" },
-          z = { "<cmd>GHCollapseCommit<cr>", "Collapse" },
-        },
-        i = {
-          name = "+Issues",
-          p = { "<cmd>GHPreviewIssue<cr>", "Preview" },
-        },
-        l = {
-          name = "+Litee",
-          t = { "<cmd>LTPanel<cr>", "Toggle Panel" },
-        },
-        r = {
-          name = "+Review",
-          b = { "<cmd>GHStartReview<cr>", "Begin" },
-          c = { "<cmd>GHCloseReview<cr>", "Close" },
-          d = { "<cmd>GHDeleteReview<cr>", "Delete" },
-          e = { "<cmd>GHExpandReview<cr>", "Expand" },
-          s = { "<cmd>GHSubmitReview<cr>", "Submit" },
-          z = { "<cmd>GHCollapseReview<cr>", "Collapse" },
-        },
-        p = {
-          name = "+Pull Request",
-          c = { "<cmd>GHClosePR<cr>", "Close" },
-          d = { "<cmd>GHPRDetails<cr>", "Details" },
-          e = { "<cmd>GHExpandPR<cr>", "Expand" },
-          o = { "<cmd>GHOpenPR<cr>", "Open" },
-          p = { "<cmd>GHPopOutPR<cr>", "PopOut" },
-          r = { "<cmd>GHRefreshPR<cr>", "Refresh" },
-          t = { "<cmd>GHOpenToPR<cr>", "Open To" },
-          z = { "<cmd>GHCollapsePR<cr>", "Collapse" },
-        },
-        t = {
-          name = "+Threads",
-          c = { "<cmd>GHCreateThread<cr>", "Create" },
-          n = { "<cmd>GHNextThread<cr>", "Next" },
-          t = { "<cmd>GHToggleThread<cr>", "Toggle" },
-        },
-      },
-    },
-  }, { prefix = "<leader>" })
 end
 
 function GitSignsSetup()
@@ -352,7 +336,9 @@ function FunStuff()
       complete = function(_, _, _) return { 'duck', 'eggplant', 'water', 'cook' } end
     })
   keymap('n', '<leader>dk', function() duck.cook() end, {})
-  require("presence").setup()
+  require("presence").setup({
+    blacklist = { "code" }
+  })
   require('neoscroll').setup()
 end
 
@@ -378,7 +364,9 @@ function LspLines()
 end
 
 function TroubleSetup()
-  require("trouble").setup {}
+  require("trouble").setup {
+    mode = "document_diagnostics"
+  }
   require('todo-comments').setup()
   vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
     { silent = true, noremap = true }
@@ -390,17 +378,18 @@ function Noice() require('noice').setup() end
 function NeOrgSetup()
   require('neorg').setup {
     load = {
-        ["core.defaults"] = {}, -- Loads default behaviour
-        ["core.norg.concealer"] = {}, -- Adds pretty icons to your documents
-        ["core.norg.dirman"] = { -- Manages Neorg workspaces
-            config = {
-                workspaces = {
-                    notes = "~/notes",
-                },
-            },
+      ["core.defaults"] = {},       -- Loads default behaviour
+      ["core.norg.concealer"] = {}, -- Adds pretty icons to your documents
+      ["core.norg.dirman"] = {      -- Manages Neorg workspaces
+        config = {
+          workspaces = {
+            meetings = "~/notes/meetings",
+            interviews = "~/notes/meetings",
+          },
         },
+      },
     },
-}
+  }
 end
 
 TreeSitterSetup()
