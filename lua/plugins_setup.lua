@@ -383,6 +383,7 @@ function NeOrgSetup()
       ["core.norg.dirman"] = {      -- Manages Neorg workspaces
         config = {
           workspaces = {
+            notes = "~/notes",
             meetings = "~/notes/meetings",
             interviews = "~/notes/meetings",
           },
