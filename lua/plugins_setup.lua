@@ -1,5 +1,6 @@
 local vim = vim
 local keymap = vim.keymap.set
+
 function MiniSetup()
   require('mini.bracketed').setup()
   require('mini.comment').setup()
@@ -177,12 +178,23 @@ function LspServers()
     manage_nvim_cmp = true,
     suggest_lsp_servers = false,
   })
-  lsp.setup()
+  lsp.setup_nvim_cmp({
+    preselect = 'none',
+    completion = {
+      completeopt = 'menu,menuone,noinsert,noselect'
+    }
+  })
+  vim.filetype.add({ extension = { gohtml = 'html', gotmpl = 'html' } })
+  lsp.configure('html', {
+    filetypes = { "html", "gohtml", "gotmpl" }
+  })
+
   keymap("n", "<leader>ff", "<cmd>LspZeroFormat<CR>")
   lsp.nvim_workspace({
     library = vim.api.nvim_get_runtime_file('', true)
   })
   vim.opt.signcolumn = 'yes'
+  lsp.setup()
 
   local null_ls = require("null-ls")
   null_ls.setup {
@@ -191,6 +203,15 @@ function LspServers()
       null_ls.builtins.completion.spell
     }
   }
+
+  -- NOTE: auto pairs setup
+  require("nvim-autopairs").setup {}
+  local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+  local cmp = require('cmp')
+  cmp.event:on(
+    'confirm_done',
+    cmp_autopairs.on_confirm_done()
+  )
 end
 
 function LspSagaSetup()
@@ -309,6 +330,13 @@ function LuaLineSetup()
           }
           return animated[os.date("%S") % #animated + 1]
         end
+      },
+      lualine_c = {
+        {
+          'filename',
+          file_stats = true,
+          path = 2,
+        }
       }
     }
   }
@@ -380,17 +408,38 @@ function NeOrgSetup()
     load = {
       ["core.defaults"] = {},       -- Loads default behaviour
       ["core.norg.concealer"] = {}, -- Adds pretty icons to your documents
-      ["core.norg.dirman"] = {      -- Manages Neorg workspaces
+      ["core.integrations.treesitter"] = {},
+      ["core.export"] = {},
+      ["core.norg.dirman"] = { -- Manages Neorg workspaces
         config = {
           workspaces = {
-            notes = "~/notes",
+            notes = "~/notes/notes",
             meetings = "~/notes/meetings",
-            interviews = "~/notes/meetings",
+            interviews = "~/notes/interviews",
           },
         },
       },
     },
   }
+end
+
+function _G.Toggle_venn()
+  local venn_enabled = vim.inspect(vim.b.venn_enabled)
+  if venn_enabled == "nil" then
+    vim.b.venn_enabled = true
+    vim.cmd [[setlocal ve=all]]
+    -- draw a line on HJKL keystokes
+    vim.api.nvim_buf_set_keymap(0, "n", "J", "<C-v>j:VBox<CR>", { noremap = true })
+    vim.api.nvim_buf_set_keymap(0, "n", "K", "<C-v>k:VBox<CR>", { noremap = true })
+    vim.api.nvim_buf_set_keymap(0, "n", "L", "<C-v>l:VBox<CR>", { noremap = true })
+    vim.api.nvim_buf_set_keymap(0, "n", "H", "<C-v>h:VBox<CR>", { noremap = true })
+    -- draw a box by pressing "f" with visual selection
+    vim.api.nvim_buf_set_keymap(0, "v", "f", ":VBox<CR>", { noremap = true })
+  else
+    vim.cmd [[setlocal ve=]]
+    vim.cmd [[mapclear <buffer>]]
+    vim.b.venn_enabled = nil
+  end
 end
 
 TreeSitterSetup()
@@ -412,3 +461,5 @@ LspLines()
 TroubleSetup()
 Noice()
 NeOrgSetup()
+-- toggle keymappings for venn using <leader>v
+vim.api.nvim_set_keymap('n', '<leader>V', ":lua Toggle_venn()<CR>", { noremap = true })

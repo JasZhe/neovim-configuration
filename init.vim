@@ -5,6 +5,7 @@ set termguicolors
 " better <Leader> key
 nnoremap <SPACE> <Nop>
 let mapleader=" "
+let maplocalleader=","
 
 " Fix yank and paste replacing yank register with whatever was replaced
 xnoremap p pgvy
@@ -64,11 +65,13 @@ Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' } "required by octor, fuz
 Plug 'nvim-telescope/telescope-ui-select.nvim'
 
 
+" NOTE: maybe we don't actually need a buffer line, we'll see
 " Buffer tabs to behave like other IDEs
 Plug 'tiagovla/scope.nvim' " allow scoping of buffers to tabs
 Plug 'romgrk/barbar.nvim'
 
 
+" TODO: maybe we can try out dirbuf instead of this
 " Side bar file navigation,
 " NOTE :NeoTreeShowInSplit is really useful, H to hide or show hidden files
 Plug 'MunifTanjim/nui.nvim' " required by neo-tree for cooler ui components
@@ -93,6 +96,7 @@ Plug 'hrsh7th/cmp-nvim-lsp'
 "  Snippets
 Plug 'L3MON4D3/LuaSnip'
 Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v1.x'}
+Plug 'windwp/nvim-autopairs'
 
 Plug 'glepnir/lspsaga.nvim'
 " better diagnostic ui
@@ -185,6 +189,9 @@ Plug 'folke/zen-mode.nvim'
 
 " NEORG
 Plug 'nvim-neorg/neorg', { 'do': ':Neorg sync-parsers' }
+
+" Diagrams
+Plug 'jbyuki/venn.nvim'
 
 call plug#end()
 
