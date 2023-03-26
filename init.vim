@@ -2,7 +2,8 @@ set mouse=a
 set autoindent
 set termguicolors
 
-" better <Leader> key
+" better <Leader> key, need to map space to nop otherwise space will move
+" cursor forward one position which is annoying
 nnoremap <SPACE> <Nop>
 let mapleader=" "
 let maplocalleader=","
@@ -52,172 +53,138 @@ set number "show line numbers on the side
 " organize these better
 
 " NOTE: Vim-plug Plugins
-call plug#begin('~/.vim/plugged')
-" NOTE: TREESITTER
-Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate'} " might need to TSUninstall some of the parsers and reinstall
-Plug 'nvim-treesitter/nvim-treesitter-context'
+" call plug#begin('~/.vim/plugged')
+" " NOTE: TREESITTER
+" Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate'} " might need to TSUninstall some of the parsers and reinstall
+" Plug 'nvim-treesitter/nvim-treesitter-context'
+"
+"
+" " NOTE: TELESCOPE
+" Plug 'nvim-lua/plenary.nvim' "required by telescope, some lua coroutines or something
+" Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+" Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' } "required by octor, fuzzy finder
+" Plug 'nvim-telescope/telescope-ui-select.nvim'
+"
+" Plug 'tiagovla/scope.nvim' " allow scoping of buffers to tabs
+"
+" " TODO: maybe we can try out dirbuf instead of this
+" " Side bar file navigation,
+" " NOTE :NeoTreeShowInSplit is really useful, H to hide or show hidden files
+" Plug 'MunifTanjim/nui.nvim' " required by neo-tree for cooler ui components
+" Plug 'nvim-neo-tree/neo-tree.nvim'
+" Plug 's1n7ax/nvim-window-picker' " enables neo-tree to choose which pane to open file in
+"
+"
+" " NOTE: Debugger
+" Plug 'mfussenegger/nvim-dap'
+" Plug 'leoluz/nvim-dap-go'
+" Plug 'rcarriga/nvim-dap-ui'
+" Plug 'theHamsta/nvim-dap-virtual-text'
+"
+"
+" " NOTE: LSP STUFF
+" Plug 'neovim/nvim-lspconfig'
+" Plug 'williamboman/mason.nvim'
+" Plug 'williamboman/mason-lspconfig.nvim'
+" " Autocompletion Engine
+" Plug 'hrsh7th/nvim-cmp'
+" Plug 'hrsh7th/cmp-nvim-lsp'
+" "  Snippets
+" Plug 'L3MON4D3/LuaSnip'
+" Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v1.x'}
+" Plug 'windwp/nvim-autopairs'
+"
+" Plug 'glepnir/lspsaga.nvim'
+" " better diagnostic ui
+" Plug 'folke/trouble.nvim'
+" Plug 'rcarriga/nvim-notify'
+" Plug 'folke/noice.nvim'
+" Plug 'jose-elias-alvarez/null-ls.nvim'
+"
+"
+" " NOTE: QOL stuff
+" " MINI plugins
+" Plug 'echasnovski/mini.trailspace', { 'branch': 'stable' }
+" Plug 'echasnovski/mini.comment', { 'branch': 'stable' }
+" Plug 'echasnovski/mini.indentscope', { 'branch': 'stable' }
+" Plug 'echasnovski/mini.map', { 'branch': 'stable' }
+" Plug 'echasnovski/mini.starter', { 'branch': 'stable' }
+" Plug 'echasnovski/mini.bracketed'
+" " more indent lines
+" Plug 'lukas-reineke/indent-blankline.nvim'
+" Plug 'folke/todo-comments.nvim'
+" Plug 'karb94/neoscroll.nvim'
+" Plug 'chrisbra/csv.vim'
+"
+"
+" " NOTE: Git stuff
+" " Adds git changes, line blames etc
+" Plug 'lewis6991/gitsigns.nvim'
+" Plug 'tpope/vim-fugitive'
+" " PR reviews and stuff
+" Plug 'sindrets/diffview.nvim' " better git patch diff view
+" Plug 'ldelossa/gh.nvim'
+" Plug 'ldelossa/litee.nvim'
+" Plug 'rhysd/committia.vim' " better git commit window in terminal
+"
+"
+" " NOTE: Better status bar
+" Plug 'nvim-lualine/lualine.nvim'
+"
+"
+" " NOTE: FUN STUFF
+" Plug 'tamton-aquib/duck.nvim'
+" Plug 'eandrju/cellular-automaton.nvim'
+" Plug 'danilamihailov/beacon.nvim'
+" " fun dev icons
+" Plug 'nvim-tree/nvim-web-devicons'
+"
+"
+" " Mardown
+" Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+" " REST Client
+" Plug 'rest-nvim/rest.nvim'
+"
+"
+" " Better quick fix
+" Plug 'kevinhwang91/nvim-bqf'
+"
+"
+" " COLOR SCHEMES
+" Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+" Plug 'navarasu/onedark.nvim'
+"
+"
+" " Which key
+" Plug 'folke/which-key.nvim'
+"
+"
+" " Leap
+" Plug 'tpope/vim-repeat'
+" Plug 'ggandor/leap.nvim'
+"
+"
+" " Focus plugins
+" Plug 'folke/twilight.nvim'
+" Plug 'folke/zen-mode.nvim'
+"
+"
+" " NEORG
+" Plug 'nvim-neorg/neorg', { 'do': ':Neorg sync-parsers' }
+"
+" " Diagrams
+" Plug 'jbyuki/venn.nvim'
+"
+" call plug#end()
 
-
-" NOTE: TELESCOPE
-Plug 'nvim-lua/plenary.nvim' "required by telescope, some lua coroutines or something
-Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' } "required by octor, fuzzy finder
-Plug 'nvim-telescope/telescope-ui-select.nvim'
-
-
-" NOTE: maybe we don't actually need a buffer line, we'll see
-" Buffer tabs to behave like other IDEs
-Plug 'tiagovla/scope.nvim' " allow scoping of buffers to tabs
-Plug 'romgrk/barbar.nvim'
-
-
-" TODO: maybe we can try out dirbuf instead of this
-" Side bar file navigation,
-" NOTE :NeoTreeShowInSplit is really useful, H to hide or show hidden files
-Plug 'MunifTanjim/nui.nvim' " required by neo-tree for cooler ui components
-Plug 'nvim-neo-tree/neo-tree.nvim'
-Plug 's1n7ax/nvim-window-picker' " enables neo-tree to choose which pane to open file in
-
-
-" NOTE: Debugger
-Plug 'mfussenegger/nvim-dap'
-Plug 'leoluz/nvim-dap-go'
-Plug 'rcarriga/nvim-dap-ui'
-Plug 'theHamsta/nvim-dap-virtual-text'
-
-
-" NOTE: LSP STUFF
-Plug 'neovim/nvim-lspconfig'
-Plug 'williamboman/mason.nvim'
-Plug 'williamboman/mason-lspconfig.nvim'
-" Autocompletion Engine
-Plug 'hrsh7th/nvim-cmp'
-Plug 'hrsh7th/cmp-nvim-lsp'
-"  Snippets
-Plug 'L3MON4D3/LuaSnip'
-Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v1.x'}
-Plug 'windwp/nvim-autopairs'
-
-Plug 'glepnir/lspsaga.nvim'
-" better diagnostic ui
-Plug 'folke/trouble.nvim'
-Plug 'rcarriga/nvim-notify'
-Plug 'folke/noice.nvim'
-Plug 'jose-elias-alvarez/null-ls.nvim'
-
-
-" NOTE: QOL stuff
-" MINI plugins
-Plug 'echasnovski/mini.trailspace', { 'branch': 'stable' }
-Plug 'echasnovski/mini.comment', { 'branch': 'stable' }
-Plug 'echasnovski/mini.indentscope', { 'branch': 'stable' }
-Plug 'echasnovski/mini.map', { 'branch': 'stable' }
-Plug 'echasnovski/mini.starter', { 'branch': 'stable' }
-Plug 'echasnovski/mini.bracketed'
-" more indent lines
-Plug 'lukas-reineke/indent-blankline.nvim'
-Plug 'folke/todo-comments.nvim'
-Plug 'karb94/neoscroll.nvim'
-Plug 'chrisbra/csv.vim'
-
-
-" NOTE: Git stuff
-" Adds git changes, line blames etc
-Plug 'lewis6991/gitsigns.nvim'
-Plug 'tpope/vim-fugitive'
-" PR reviews and stuff
-Plug 'sindrets/diffview.nvim' " better git patch diff view
-Plug 'ldelossa/gh.nvim'
-Plug 'ldelossa/litee.nvim'
-Plug 'rhysd/committia.vim' " better git commit window in terminal
-
-
-" NOTE: Better status bar
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'nvim-lualine/lualine.nvim'
-
-
-" NOTE: FUN STUFF
-Plug 'tamton-aquib/duck.nvim'
-Plug 'eandrju/cellular-automaton.nvim'
-Plug 'andweeb/presence.nvim'
-Plug 'danilamihailov/beacon.nvim'
-" fun dev icons
-Plug 'nvim-tree/nvim-web-devicons'
-
-
-" NOTE: Buffer tabs to behave like other IDEs
-Plug 'tiagovla/scope.nvim' " allow scoping of buffers to tabs
-Plug 'romgrk/barbar.nvim'
-
-
-" Symbols outline
-Plug 'stevearc/aerial.nvim'
-
-
-" Mardown
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-" Google keep integration
-Plug 'stevearc/gkeep.nvim', { 'do': ':UpdateRemotePlugins' }
-" REST Client
-Plug 'rest-nvim/rest.nvim'
-
-
-" Better quick fix
-Plug 'kevinhwang91/nvim-bqf'
-
-
-" COLOR SCHEMES
-Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
-Plug 'navarasu/onedark.nvim'
-
-
-" Which key
-Plug 'folke/which-key.nvim'
-
-
-" Leap
-Plug 'tpope/vim-repeat'
-Plug 'ggandor/leap.nvim'
-
-
-" Focus plugins
-Plug 'folke/twilight.nvim'
-Plug 'folke/zen-mode.nvim'
-
-
-" NEORG
-Plug 'nvim-neorg/neorg', { 'do': ':Neorg sync-parsers' }
-
-" Diagrams
-Plug 'jbyuki/venn.nvim'
-
-call plug#end()
-
-" airline stuff
-function! s:AirlineSetup()
-  let g:airline#extensions#tabline#enabled = 0
-  let g:airline_powerline_fonts = 1
-  let g:airline#extensions#lsp#enabled = 1
-  let g:airline_theme = 'luna'
-endfunction
-
-" for barbar keybindings, I want to use the tab navigation for buffer navigation
-" instead. Use the :tabn<i> to change tabs. Think of tabs as workspaces
-map gt <Nop>
-map gT <Nop>
+" Use lsp go to definition instead
 map <C-]> <Nop>
 
 " NOTE: Map <C-c> to <ESC> in insert mode so we send a leave event so neorg
 " parses correctly
 inoremap <C-c> <ESC>
 
-" https://stackoverflow.com/questions/4115841/is-it-possible-to-remap-wq-to-save-and-close-the-current-buffer-instead-of-sav
-" too many problems with :q on random windows, better to just be more explicit
-cnoreabbrev q Duck duck |" Will need to :quit to actually exit the window,
+" colorscheme tokyonight
 
-colorscheme tokyonight
-
-" call s:AirlineSetup()
+lua require 'init_lazy'
 lua require 'plugins_setup'
