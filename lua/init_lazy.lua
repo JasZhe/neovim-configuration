@@ -32,6 +32,7 @@ require("lazy").setup({
   'MunifTanjim/nui.nvim', -- cooler ui components for neo-tree
   'nvim-neo-tree/neo-tree.nvim',
   's1n7ax/nvim-window-picker', -- enables neotree to pick which pane to open file in
+  'sidebar-nvim/sidebar.nvim', -- sidebar
 
   -- NOTE: DEBUGGING
   'mfussenegger/nvim-dap',

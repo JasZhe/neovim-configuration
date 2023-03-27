@@ -69,6 +69,41 @@ function TelescopeSetup()
     local text = vim.getVisualSelection()
     tb.live_grep({ default_text = text })
   end, opts)
+
+  -- stole this off of https://www.petergundel.de/git/neovim/telescope/2023/03/22/git-jump-in-neovim-with-telescope.html
+  local git_hunks = function()
+    require("telescope.pickers")
+      .new({
+        finder = require("telescope.finders").new_oneshot_job({ "git", "jump", "--stdout", "diff" }, {
+          entry_maker = function(line)
+            local filename, lnum_string = line:match("([^:]+):(%d+).*")
+
+            -- I couldn't find a way to use grep in new_oneshot_job so we have to filter here.
+            -- return nil if filename is /dev/null because this means the file was deleted.
+            if filename:match("^/dev/null") then
+              return nil
+            end
+
+            return {
+              value = filename,
+              display = line,
+              ordinal = line,
+              filename = filename,
+              lnum = tonumber(lnum_string),
+            }
+          end,
+        }),
+        sorter = require("telescope.sorters").get_generic_fuzzy_sorter(),
+        previewer = require("telescope.config").values.grep_previewer({}),
+        results_title = "Git hunks",
+        prompt_title = "Git hunks",
+        layout_strategy = "flex",
+      }, {})
+      :find()
+  end
+
+  vim.keymap.set("n", "<Leader>gh", git_hunks, {})
+
 end
 
 function NeoTreeSetup()
@@ -305,10 +340,11 @@ function TroubleSetup()
   require("trouble").setup {
     mode = "document_diagnostics"
   }
-  require('todo-comments').setup()
   vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
     { silent = true, noremap = true }
   )
+
+  require('todo-comments').setup()
 end
 
 function Noice() require('noice').setup() end
@@ -352,6 +388,14 @@ function _G.Toggle_venn()
   end
 end
 
+function SideBarSetup()
+  require("sidebar-nvim").setup({
+    sections = { "buffers", "todos", "git", "diagnostics", "files", "symbols" },
+    update_interval = 500
+  })
+  vim.keymap.set("n", "<leader>sb", "<cmd>SidebarNvimToggle<cr>")
+end
+
 TreeSitterSetup()
 MiniSetup()
 ScopeSetup()
@@ -371,5 +415,6 @@ LspLines()
 TroubleSetup()
 Noice()
 NeOrgSetup()
+SideBarSetup()
 -- toggle keymappings for venn using <leader>v
 vim.api.nvim_set_keymap('n', '<leader>V', ":lua Toggle_venn()<CR>", { noremap = true })
