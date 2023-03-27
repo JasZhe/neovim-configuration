@@ -106,18 +106,6 @@ function TelescopeSetup()
 
 end
 
-function NeoTreeSetup()
-  require('window-picker').setup() -- allows us to choose which pane to open file in
-  require 'neo-tree'.setup({
-    window = {
-      mappings = {
-        ["<space>"] = "noop"
-      }
-    }
-  })
-  vim.keymap.set('n', '<leader>nt', '<cmd>NeoTreeShowToggle<cr>')
-end
-
 function LspServers()
   local lsp = require('lsp-zero').preset({
     name = 'recommended',
@@ -407,7 +395,6 @@ TreeSitterSetup()
 MiniSetup()
 ScopeSetup()
 TelescopeSetup()
-NeoTreeSetup()
 LspServers()
 GitSignsSetup()
 LspSagaSetup()
