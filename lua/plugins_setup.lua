@@ -30,21 +30,6 @@ function MiniSetup()
   keymap('n', '<leader>ts', function() mini_trailspace.trim() end)
 end
 
-function MiniMapSetup()
-  vim.g.minimap_width = 15
-  vim.g.minimap_auto_start = 1
-  vim.g.minimap_auto_start_win_enter = 0
-  vim.g.minimap_left = 0
-  vim.g.minimap_block_filetypes = { 'fugitive', 'nvim-tree', 'tagbar', 'fzf', 'telescope', 'NvimTree', 'NeoTree' }
-  vim.g.minimap_block_buftypes = { 'nofile', 'nowrite', 'quickfix', 'terminal', 'prompt', 'NvimTree', 'NeoTree' }
-  vim.g.minimap_close_filetypes = { 'startify', 'netrw', 'vim-plug', 'NvimTree', 'NeoTree' }
-  vim.g.minimap_highlight_range = 1
-  vim.g.minimap_highlight_search = 1
-  vim.g.minimap_git_colors = 1
-
-  vim.keymap.set('n', 'mm', '<cmd>MinimapToggle<CR>')
-end
-
 function ScopeSetup()
   require('scope').setup() -- without this, buffers in other tabs will show up
 end
@@ -88,7 +73,13 @@ end
 
 function NeoTreeSetup()
   require('window-picker').setup() -- allows us to choose which pane to open file in
-  require 'neo-tree'.setup()
+  require 'neo-tree'.setup({
+    window = {
+      mappings = {
+        ["<space>"] = "noop"
+      }
+    }
+  })
   vim.keymap.set('n', '<leader>nt', '<cmd>NeoTreeShowToggle<cr>')
 end
 

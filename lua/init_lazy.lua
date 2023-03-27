@@ -69,6 +69,9 @@ require("lazy").setup({
   'karb94/neoscroll.nvim',
   'chrisbra/csv.vim',
   'nvim-lualine/lualine.nvim',
+  'chrisbra/Recover.vim',
+  'tpope/vim-surround',
+  { 'airblade/vim-rooter', lazy = false, },
 
   -- NOTE: Bunch of GIT stuff
   'lewis6991/gitsigns.nvim',
@@ -113,8 +116,8 @@ require("lazy").setup({
   'folke/zen-mode.nvim',
 
 
+  -- NOTE: documents
+  { "ellisonleao/glow.nvim", config = true, cmd = "Glow" },
   { 'nvim-neorg/neorg', build = ":Neorg sync-parsers" },
-
   'jbyuki/venn.nvim',
-
 })
