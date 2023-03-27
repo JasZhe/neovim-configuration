@@ -147,7 +147,8 @@ function LspServers()
   null_ls.setup {
     sources = {
       null_ls.builtins.formatting.goimports,
-      null_ls.builtins.completion.spell
+      null_ls.builtins.completion.spell,
+      null_ls.builtins.code_actions.gitsigns
     }
   }
 
@@ -246,19 +247,25 @@ function GitSignsSetup()
       -- Actions
       map({ 'n', 'v' }, '<leader>hs', ':Gitsigns stage_hunk<CR>')
       map({ 'n', 'v' }, '<leader>hr', ':Gitsigns reset_hunk<CR>')
-      map('n', '<leader>hS', gs.stage_buffer)
+      map('n', '<leader>nh', gs.next_hunk)
+      map('n', '<leader>ph', gs.prev_hunk)
       map('n', '<leader>hu', gs.undo_stage_hunk)
-      map('n', '<leader>hR', gs.reset_buffer)
       map('n', '<leader>hp', gs.preview_hunk)
       map('n', '<leader>hb', function() gs.blame_line { full = true } end)
-      map('n', '<leader>tb', gs.toggle_current_line_blame)
-      map('n', '<leader>hd', gs.diffthis)
-      map('n', '<leader>hD', function() gs.diffthis('~') end)
-      map('n', '<leader>td', gs.toggle_deleted)
+      map('n', '<leader>hd', function() gs.diffthis("HEAD", { split = "rightbelow" }) end)
+      map('n', '<leader>hD', function() gs.diffthis('~', { split = "rightbelow" }) end)
 
       -- Text object
       map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
-    end
+    end,
+    current_line_blame = true,
+    current_line_blame_opts = { delay = 500 },
+    numhl = true,
+    word_diff = true,
+    debug_mode = true,
+    diff_opts = {
+      internal = true
+    },
   })
 end
 
