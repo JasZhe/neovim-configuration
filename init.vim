@@ -57,3 +57,5 @@ inoremap <C-c> <ESC>
 
 lua require 'init_lazy'
 lua require 'plugins_setup'
+
+autocmd User TelescopePreviewerLoaded setlocal wrap

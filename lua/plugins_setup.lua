@@ -35,12 +35,29 @@ function ScopeSetup()
 end
 
 function TelescopeSetup()
-  keymap('n', '<leader>F', '<cmd>Telescope find_files<cr>')
-  keymap('n', '<leader>U', '<cmd>Telescope lsp_references<cr>')
-  keymap('n', '<leader>B', '<cmd>Telescope buffers<cr>')
-  keymap('n', '<leader>th', '<cmd>Telescope help_tags<cr>')
-  require("telescope").load_extension("ui-select")
+  local telescope = require("telescope")
+  local lga_actions = require("telescope-live-grep-args.actions")
+  local tb = require('telescope.builtin')
+  keymap('n', '<leader>F', tb.find_files, {})
+  keymap('n', '<leader>U', tb.lsp_references, {})
+  keymap('n', '<leader>B', tb.buffers, {})
+  telescope.load_extension("ui-select")
+  telescope.load_extension("live_grep_args")
+  telescope.setup {
+    extensions = {
+      live_grep_args = {
+        auto_quoting = false,
+        mappings = {
+          i = {
+            ["<C-k>"] = lga_actions.quote_prompt(),
+            ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+          },
+        },
+      }
+    }
+  }
 
+  -- NOTE: this portion allows us to visual select and then fuzzy find the selection
   function vim.getVisualSelection()
     vim.cmd('noau normal! "vy"')
     local text = vim.fn.getreg('v')
@@ -54,8 +71,6 @@ function TelescopeSetup()
     end
   end
 
-  -- NOTE: this portion allows us to visual select and then fuzzy find the selection
-  local tb = require('telescope.builtin')
   local opts = { noremap = true, silent = true }
 
   keymap('n', '<space>gb', ':Telescope current_buffer_fuzzy_find<cr>', opts)
@@ -64,7 +79,7 @@ function TelescopeSetup()
     tb.current_buffer_fuzzy_find({ default_text = text })
   end, opts)
 
-  keymap('n', '<space>G', ':Telescope live_grep<cr>', opts)
+  keymap('n', '<space>G', ':Telescope live_grep_args<cr>', opts)
   keymap('v', '<space>G', function()
     local text = vim.getVisualSelection()
     tb.live_grep({ default_text = text })
@@ -73,37 +88,36 @@ function TelescopeSetup()
   -- stole this off of https://www.petergundel.de/git/neovim/telescope/2023/03/22/git-jump-in-neovim-with-telescope.html
   local git_hunks = function()
     require("telescope.pickers")
-      .new({
-        finder = require("telescope.finders").new_oneshot_job({ "git", "jump", "--stdout", "diff" }, {
-          entry_maker = function(line)
-            local filename, lnum_string = line:match("([^:]+):(%d+).*")
+        .new({
+          finder = require("telescope.finders").new_oneshot_job({ "git", "jump", "--stdout", "diff" }, {
+            entry_maker = function(line)
+              local filename, lnum_string = line:match("([^:]+):(%d+).*")
 
-            -- I couldn't find a way to use grep in new_oneshot_job so we have to filter here.
-            -- return nil if filename is /dev/null because this means the file was deleted.
-            if filename:match("^/dev/null") then
-              return nil
-            end
+              -- I couldn't find a way to use grep in new_oneshot_job so we have to filter here.
+              -- return nil if filename is /dev/null because this means the file was deleted.
+              if filename:match("^/dev/null") then
+                return nil
+              end
 
-            return {
-              value = filename,
-              display = line,
-              ordinal = line,
-              filename = filename,
-              lnum = tonumber(lnum_string),
-            }
-          end,
-        }),
-        sorter = require("telescope.sorters").get_generic_fuzzy_sorter(),
-        previewer = require("telescope.config").values.grep_previewer({}),
-        results_title = "Git hunks",
-        prompt_title = "Git hunks",
-        layout_strategy = "flex",
-      }, {})
-      :find()
+              return {
+                value = filename,
+                display = line,
+                ordinal = line,
+                filename = filename,
+                lnum = tonumber(lnum_string),
+              }
+            end,
+          }),
+          sorter = require("telescope.sorters").get_generic_fuzzy_sorter(),
+          previewer = require("telescope.config").values.grep_previewer({}),
+          results_title = "Git hunks",
+          prompt_title = "Git hunks",
+          layout_strategy = "flex",
+        }, {})
+        :find()
   end
 
   vim.keymap.set("n", "<Leader>gh", git_hunks, {})
-
 end
 
 function LspServers()
@@ -122,6 +136,19 @@ function LspServers()
   vim.filetype.add({ extension = { gohtml = 'html', gotmpl = 'html' } })
   lsp.configure('html', {
     filetypes = { "html", "gohtml", "gotmpl" }
+  })
+
+  lsp.configure('pylsp', {
+    settings = {
+      pylsp = {
+        plugins = {
+          pycodestyle = {
+            ignore = {},
+            maxLineLength = 120
+          }
+        }
+      }
+    }
   })
 
   keymap("n", "<leader>ff", "<cmd>LspZeroFormat<CR>")
@@ -154,9 +181,10 @@ function LspSagaSetup()
   require("lspsaga").setup({
     outline = {
       keys = {
-        jump = "<CR>"
-      },
-      auto_close = true
+        jump = "<CR>",
+        expand_collapse = "t",
+        win_width = 50
+      }
     }
   })
   keymap("n", "<C-]>", "<cmd>Lspsaga lsp_finder<CR>")
@@ -329,6 +357,12 @@ function LspLines()
   vim.diagnostic.config({
     virtual_text = false,
   })
+  vim.keymap.set(
+    "n",
+    "<Leader>tl",
+    require("lsp_lines").toggle,
+    { desc = "Toggle lsp_lines" }
+  )
 end
 
 function TroubleSetup()
