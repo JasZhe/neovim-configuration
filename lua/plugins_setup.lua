@@ -151,7 +151,14 @@ function LspServers()
     }
   })
 
-  keymap("n", "<leader>ff", "<cmd>LspZeroFormat<CR>")
+  lsp.on_attach(function(_, bufnr)
+    local opts = { buffer = bufnr }
+
+    vim.keymap.set({ 'n', 'x' }, '<leader>ff', function()
+      vim.lsp.buf.format({ bufnr = bufnr })
+    end, opts)
+  end)
+
   lsp.nvim_workspace({
     library = vim.api.nvim_get_runtime_file('', true)
   })
@@ -162,6 +169,7 @@ function LspServers()
   null_ls.setup {
     sources = {
       null_ls.builtins.formatting.goimports,
+      null_ls.builtins.formatting.isort,
       null_ls.builtins.completion.spell,
       null_ls.builtins.code_actions.gitsigns
     }
