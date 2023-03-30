@@ -24,31 +24,6 @@ return {
 
   { 'echasnovski/mini.indentscope', version = false, config = function() require('mini.indentscope').setup() end }, -- dynamic indent scope highlight
 
-  {
-    'echasnovski/mini.map',
-    version = false,
-    branch = "stable",
-    config = function()
-      local minimap = require('mini.map')
-      minimap.setup({
-        integrations = {
-          minimap.gen_integration.builtin_search(),
-          minimap.gen_integration.gitsigns(),
-          minimap.gen_integration.diagnostic(),
-        },
-        symbols = {
-          encode = minimap.gen_encode_symbols.dot('4x2'),
-        },
-        window = {
-          focusable = true,
-          show_integration_count = true,
-          width = 15
-        }
-      })
-      vim.keymap.set('n', '<leader>mm', function() minimap.toggle() end)
-      vim.keymap.set('n', '<leader>mf', function() minimap.toggle_focus() end)
-    end
-  },
   -- passive indent lines
   { 'lukas-reineke/indent-blankline.nvim' },
 
