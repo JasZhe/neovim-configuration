@@ -18,11 +18,19 @@ function _G.Toggle_venn()
 end
 
 return {
-  { 'echasnovski/mini.comment',     version = false, config = function() require('mini.comment').setup() end },     -- easy commenting
-  { 'echasnovski/mini.starter',     version = false, config = function() require('mini.starter').setup() end },
-  { 'echasnovski/mini.bracketed',   version = false, config = function() require('mini.bracketed').setup() end },   -- scope navigation
-
-  { 'echasnovski/mini.indentscope', version = false, config = function() require('mini.indentscope').setup() end }, -- dynamic indent scope highlight
+  { 'echasnovski/mini.comment',   version = false, config = function() require('mini.comment').setup() end },     -- easy commenting
+  { 'echasnovski/mini.starter',   version = false, config = function() require('mini.starter').setup() end },
+  { 'echasnovski/mini.bracketed', version = false, config = function() require('mini.bracketed').setup() end },   -- scope navigation
+  {
+    'echasnovski/mini.trailspace',
+    version = false,
+    config = function()
+      local mini_trailspace = require('mini.trailspace')
+      mini_trailspace.setup()
+      vim.keymap.set('n', '<leader>ts', function() mini_trailspace.trim() end)
+    end
+  },
+  { 'echasnovski/mini.indentscope',       version = false, config = function() require('mini.indentscope').setup() end }, -- dynamic indent scope highlight
 
   -- passive indent lines
   { 'lukas-reineke/indent-blankline.nvim' },
@@ -137,6 +145,7 @@ return {
 
 
   { 'tpope/vim-repeat' },
+  { 'romainl/vim-cool' }, -- so we don't gotta type :noh all the time to get rid of search highlighting
   {
     'ggandor/leap.nvim',
     config = function()
