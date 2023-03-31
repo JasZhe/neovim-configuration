@@ -168,8 +168,30 @@ return {
   },
 
 
-  { "ellisonleao/glow.nvim", config = true,                cmd = "Glow" },
-  { 'nvim-neorg/neorg',      build = ":Neorg sync-parsers" },
+  { "ellisonleao/glow.nvim", config = true, cmd = "Glow" },
+  {
+    'nvim-neorg/neorg',
+    build = ":Neorg sync-parsers",
+    init = function()
+      require('neorg').setup {
+        load = {
+          ["core.defaults"] = {},   -- Loads default behaviour
+          ["core.norg.concealer"] = {}, -- Adds pretty icons to your documents
+          ["core.integrations.treesitter"] = {},
+          ["core.export"] = {},
+          ["core.norg.dirman"] = { -- Manages Neorg workspaces
+            config = {
+              workspaces = {
+                notes = "~/notes/notes",
+                meetings = "~/notes/meetings",
+                interviews = "~/notes/interviews",
+              },
+            },
+          },
+        },
+      }
+    end
+  },
   {
     'jbyuki/venn.nvim',
     config = function()
