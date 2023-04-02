@@ -232,7 +232,7 @@ return {
       require("lspsaga").setup({
         outline = {
           keys = {
-            jump = "<CR>",
+            expand_or_jump = "<CR>",
             expand_collapse = "t",
             win_width = 50
           }

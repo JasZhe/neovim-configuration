@@ -41,7 +41,7 @@ return {
       current_line_blame = true,
       current_line_blame_opts = { delay = 500 },
       numhl = true,
-      word_diff = true,
+      word_diff = false,
       debug_mode = true,
       diff_opts = {
         internal = true
