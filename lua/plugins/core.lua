@@ -76,14 +76,14 @@ return {
 
         local opts = { noremap = true, silent = true }
 
-        vim.keymap.set('n', '<space>gb', ':Telescope current_buffer_fuzzy_find<cr>', opts)
-        vim.keymap.set('v', '<space>gb', function()
+        vim.keymap.set('n', '<leader>gb', ':Telescope current_buffer_fuzzy_find<cr>', opts)
+        vim.keymap.set('v', '<leader>gb', function()
           local text = vim.getVisualSelection()
           tb.current_buffer_fuzzy_find({ default_text = text })
         end, opts)
 
-        vim.keymap.set('n', '<space>G', ':Telescope live_grep_args<cr>', opts)
-        vim.keymap.set('v', '<space>G', function()
+        vim.keymap.set('n', '<leader>G', ':Telescope live_grep_args<cr>', opts)
+        vim.keymap.set('v', '<leader>G', function()
           local text = vim.getVisualSelection()
           tb.live_grep({ default_text = text })
         end, opts)
@@ -237,8 +237,14 @@ return {
             win_width = 50
           }
         },
-        lightbuib = {
-          sign = false
+        finder = {
+          keys = {
+            expand_or_jump = '<CR>',
+          }
+        },
+        lightbulb = {
+          sign = false,
+          virtual_text = false
         }
       })
       vim.keymap.set("n", "<C-]>", "<cmd>Lspsaga lsp_finder<CR>")
