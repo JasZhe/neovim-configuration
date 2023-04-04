@@ -365,12 +365,7 @@ function LspLines()
   vim.diagnostic.config({
     virtual_text = false,
   })
-  vim.keymap.set(
-    "n",
-    "<Leader>tl",
-    require("lsp_lines").toggle,
-    { desc = "Toggle lsp_lines" }
-  )
+  vim.keymap.set("n", "<Leader>tl", require("lsp_lines").toggle, { desc = "Toggle lsp_lines" })
 end
 
 function TroubleSetup()

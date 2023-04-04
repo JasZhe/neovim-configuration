@@ -44,7 +44,7 @@ return {
           local name_hl = "SidebarNvimNormal"
           local file_path = tag.file_path
           local cursor = tag.cursor
-          local row, _ = unpack(cursor)
+          local row, col = unpack(cursor)
           if file_path == current_buffer_path then
             name_hl = "SidebarNvimBuffersActive"
           end
@@ -54,7 +54,7 @@ return {
             left = {
               get_fileicon(file_path),
               { text = utils.filename(file_path), hl = name_hl },
-              { text = " l:" .. row,              hl = "SidebarNvimBuffersNumber" },
+              { text = " " .. row .. ":" .. col,              hl = "SidebarNvimBuffersNumber" },
             },
             data = { filepath = file_path, cursor = cursor },
           }
