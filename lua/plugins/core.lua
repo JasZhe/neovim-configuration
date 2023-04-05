@@ -154,9 +154,6 @@ return {
       -- Snippets
       { 'L3MON4D3/LuaSnip' },
       { 'rafamadriz/friendly-snippets' },
-
-      -- technically not a dependency but might as well be loaded
-      -- along side
     },
     config = function()
       local lsp = require('lsp-zero').preset({
@@ -223,7 +220,7 @@ return {
 
   {
     "glepnir/lspsaga.nvim",
-    event = "LspAttach",
+    event = "LspAttach", -- hopefully should make it so this loads after lsp-zero
     dependencies = {
       { "nvim-tree/nvim-web-devicons" },
       { "nvim-treesitter/nvim-treesitter" }
