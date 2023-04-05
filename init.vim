@@ -57,4 +57,5 @@ inoremap <C-c> <ESC>
 
 lua require 'init_lazy'
 
+" wrap the text in the previewer
 autocmd User TelescopePreviewerLoaded setlocal wrap

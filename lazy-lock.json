@@ -4,7 +4,6 @@
   "beacon.nvim": { "branch": "master", "commit": "a786c9a89b2c739c69f9500a2f70f2586c06ec27" },
   "cellular-automaton.nvim": { "branch": "main", "commit": "679943b8e1e5ef79aaeeaf4b00782c52eb4e928f" },
   "cmp-nvim-lsp": { "branch": "main", "commit": "0e6b2ed705ddcff9738ec4ea838141654f12eeef" },
-  "committia.vim": { "branch": "master", "commit": "0b4df1a7f48ffbc23b009bd14d58ee1be541917c" },
   "csv.vim": { "branch": "master", "commit": "0f6900bf1d0f2ccdbe59ed246db4a82e5cc16e78" },
   "diffview.nvim": { "branch": "main", "commit": "9aeef888e7c7b7cb14196bea86d53999f8b7de85" },
   "duck.nvim": { "branch": "main", "commit": "b1a3b4e52eec886bf4ce5ed692a2162d504d9632" },

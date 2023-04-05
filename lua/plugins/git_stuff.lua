@@ -61,6 +61,4 @@ return {
       { 'ldelossa/litee.nvim', main = "litee.lib" }
     }
   },
-
-  { 'rhysd/committia.vim' },
 }
