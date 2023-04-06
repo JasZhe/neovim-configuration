@@ -51,7 +51,20 @@ return {
 
   { 'tpope/vim-fugitive' },
 
-  { 'sindrets/diffview.nvim' },
+  {
+    'sindrets/diffview.nvim',
+    init = function()
+      vim.api.nvim_create_autocmd('VimEnter', {
+        desc = 'Open diffview on commit messages',
+        group = vim.api.nvim_create_augroup('open_diffview_on_commit', { clear = true }),
+        callback = function(opts)
+          if vim.bo[opts.buf].filetype == 'gitcommit' then
+            vim.cmd 'DiffviewOpen --staged'
+          end
+        end,
+      })
+    end
+  },
 
   {
     'ldelossa/gh.nvim',

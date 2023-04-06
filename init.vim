@@ -1,3 +1,5 @@
+" more info found doing :options
+
 set mouse=a
 set autoindent
 set termguicolors
@@ -19,11 +21,15 @@ set shiftwidth=2
 set expandtab
 
 " I don't like word wrap lol
-set nowrap
+set wrap
 
 " save swap files to same directory as edited file
 " this is what vim uses but nvim changed it
 set directory='.'
+" number of screen lines to show around the cursor
+set so=3
+" highlight the screen line of the cursor
+set cul
 
 " set filetype on: vim will try and recognize the type of the file
 " plugin on: when a file is edited, its plugin file is loaded. Loads 'ftplugin.vim'

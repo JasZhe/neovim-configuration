@@ -139,6 +139,7 @@ return {
   },
   {
     "nvim-neo-tree/neo-tree.nvim",
+    cond = false,
     dependencies = {
       { "nvim-lua/plenary.nvim" },
       { "nvim-tree/nvim-web-devicons" }, -- not strictly required, but recommended
@@ -162,7 +163,6 @@ return {
       }
     },
     keys = {
-      { "<leader>/", "<cmd>Neotree toggle<cr>", desc = "Toggle neo-tree" }
     },
     config = function()
       vim.fn.sign_define("DiagnosticSignError",
@@ -177,9 +177,37 @@ return {
       require("neo-tree").setup({
         close_if_last_window = true,
         window = {
+          auto_expand_width = true,
           mappings = {
             ["<space>"] = false
           }
+        }
+      })
+    end
+  },
+  {
+    'nvim-tree/nvim-tree.lua',
+    keys = {
+      { "<leader>/", "<cmd>NvimTreeToggle<cr>", desc = "Toggle nvim-tree" }
+    },
+    config = function()
+      require('nvim-tree').setup({
+        view = {
+          width = 40,
+        },
+        diagnostics = {
+          enable = true,
+          show_on_dirs = true,
+        },
+        renderer = {
+          icons = {
+            show = {
+              git = false,
+              modified = false
+            }
+          },
+          highlight_git = true,
+          highlight_modified = 'all'
         }
       })
     end

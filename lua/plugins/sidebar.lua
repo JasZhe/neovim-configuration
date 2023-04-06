@@ -1,3 +1,13 @@
+local function find_buffer_by_name(name)
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    local buf_name = vim.api.nvim_buf_get_name(buf)
+    if buf_name == name then
+      return buf
+    end
+  end
+  return -1
+end
+
 return {
   {
     'sidebar-nvim/sidebar.nvim',
@@ -54,7 +64,7 @@ return {
             left = {
               get_fileicon(file_path),
               { text = utils.filename(file_path), hl = name_hl },
-              { text = " " .. row .. ":" .. col,              hl = "SidebarNvimBuffersNumber" },
+              { text = " " .. row .. ":" .. col,  hl = "SidebarNvimBuffersNumber" },
             },
             data = { filepath = file_path, cursor = cursor },
           }
@@ -114,8 +124,17 @@ return {
         sections = { grapple_hooks, "buffers", "diagnostics", "todos", "symbols" },
         update_interval = 500,
       })
-      vim.keymap.set("n", "<leader>sb", "<cmd>SidebarNvimToggle<cr>")
+      vim.keymap.set("n", "<leader>sb", function ()
+        vim.cmd 'SidebarNvimToggle'
+      end)
 
+      vim.api.nvim_create_autocmd('TabLeave', {
+        desc = 'Close sidebar on tab leave',
+        group = vim.api.nvim_create_augroup('close_side_bar_tableave', { clear = true }),
+        callback = function(_)
+          vim.cmd 'SidebarNvimClose'
+        end,
+      })
 
       -- allow opening of buffers with enter
       local git_section = require("sidebar-nvim.builtin.buffers")
@@ -123,7 +142,7 @@ return {
 
       -- allow opening todos with enter
       local todo_section = require("sidebar-nvim.builtin.todos")
-      todo_section.bindings["<CR>"] = todo_section.bindings["e"]
+      todo_section.bindings["<CR>"] = todo_section.bindings["e"] 
     end
   },
 }
