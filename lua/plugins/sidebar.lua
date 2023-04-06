@@ -111,17 +111,18 @@ return {
 
       local sidebar = require("sidebar-nvim")
       sidebar.setup({
-        sections = { grapple_hooks, "buffers", "diagnostics", "todos", "files", "symbols" },
+        sections = { grapple_hooks, "buffers", "diagnostics", "todos", "symbols" },
         update_interval = 500,
       })
       vim.keymap.set("n", "<leader>sb", "<cmd>SidebarNvimToggle<cr>")
 
-      local git_section = require("sidebar-nvim.builtin.buffers")
+
       -- allow opening of buffers with enter
+      local git_section = require("sidebar-nvim.builtin.buffers")
       git_section.bindings["<CR>"] = git_section.bindings["e"]
 
-      local todo_section = require("sidebar-nvim.builtin.todos")
       -- allow opening todos with enter
+      local todo_section = require("sidebar-nvim.builtin.todos")
       todo_section.bindings["<CR>"] = todo_section.bindings["e"]
     end
   },

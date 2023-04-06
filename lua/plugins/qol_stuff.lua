@@ -103,7 +103,9 @@ return {
     config = function()
       vim.o.timeout = true
       vim.o.timeoutlen = 300
-      require("which-key").setup({})
+      require("which-key").setup({
+        disable = { filetypes = { "neo-tree" } }
+      })
     end,
   },
 
@@ -118,7 +120,7 @@ return {
   },
 
 
-  { 'folke/twilight.nvim',   main = "twilight" },
+  { 'folke/twilight.nvim', main = "twilight" },
   {
     'folke/zen-mode.nvim',
     config = function()
@@ -130,4 +132,56 @@ return {
       vim.keymap.set("n", "<leader>ZM", "<cmd>ZenMode<CR>")
     end
   },
+
+  {
+    'stevearc/oil.nvim',
+    config = function() require('oil').setup() end
+  },
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    dependencies = {
+      { "nvim-lua/plenary.nvim" },
+      { "nvim-tree/nvim-web-devicons" }, -- not strictly required, but recommended
+      { "MunifTanjim/nui.nvim" },
+      {
+        's1n7ax/nvim-window-picker',
+        tag = "v1.*",
+        config = function()
+          require 'window-picker'.setup({
+            autoselect_one = true,
+            include_current = false,
+            filter_rules = {
+              bo = {
+                filetype = { 'neo-tree', "neo-tree-popup", "notify" },
+                buftype = { 'terminal', "quickfix" },
+              },
+            },
+            other_win_hl_color = '#e35e4f',
+          })
+        end,
+      }
+    },
+    keys = {
+      { "<leader>/", "<cmd>Neotree toggle<cr>", desc = "Toggle neo-tree" }
+    },
+    config = function()
+      vim.fn.sign_define("DiagnosticSignError",
+        { text = " ", texthl = "DiagnosticSignError" })
+      vim.fn.sign_define("DiagnosticSignWarn",
+        { text = " ", texthl = "DiagnosticSignWarn" })
+      vim.fn.sign_define("DiagnosticSignInfo",
+        { text = " ", texthl = "DiagnosticSignInfo" })
+      vim.fn.sign_define("DiagnosticSignHint",
+        { text = "", texthl = "DiagnosticSignHint" })
+
+      require("neo-tree").setup({
+        close_if_last_window = true,
+        window = {
+          mappings = {
+            ["<space>"] = false
+          }
+        }
+      })
+    end
+  }
 }
