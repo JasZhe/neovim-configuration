@@ -228,10 +228,10 @@ return {
     config = function()
       require("lspsaga").setup({
         outline = {
+          win_width = 50,
           keys = {
             expand_or_jump = "<CR>",
             expand_collapse = "t",
-            win_width = 50
           }
         },
         finder = {
@@ -240,8 +240,8 @@ return {
           }
         },
         lightbulb = {
-          sign = false,
-          virtual_text = false
+          enable = false,
+          virtual_text = false,
         }
       })
       vim.keymap.set("n", "<C-]>", "<cmd>Lspsaga lsp_finder<CR>")

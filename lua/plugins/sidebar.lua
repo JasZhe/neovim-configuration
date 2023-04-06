@@ -121,7 +121,7 @@ return {
 
       local sidebar = require("sidebar-nvim")
       sidebar.setup({
-        sections = { grapple_hooks, "buffers", "diagnostics", "todos", "symbols" },
+        sections = { grapple_hooks, "buffers", "diagnostics", "todos" },
         update_interval = 500,
       })
       vim.keymap.set("n", "<leader>sb", function ()

@@ -21,11 +21,13 @@ set shiftwidth=2
 set expandtab
 
 " I don't like word wrap lol
-set wrap
+set nowrap
 
-" save swap files to same directory as edited file
-" this is what vim uses but nvim changed it
-set directory='.'
+
+
+
+
+
 " number of screen lines to show around the cursor
 set so=3
 " highlight the screen line of the cursor

@@ -60,7 +60,13 @@ return {
       )
     end
   },
-  { 'airblade/vim-rooter', lazy = false, },
+  {
+    'airblade/vim-rooter',
+    lazy = false,
+    init = function()
+      vim.g.rooter_buftypes = {''}
+    end
+  },
   { 'chrisbra/csv.vim' },
   {
     'folke/todo-comments.nvim',
@@ -75,7 +81,7 @@ return {
     },
     config = function()
       require("trouble").setup {
-        mode = "document_diagnostics"
+        mode = "workspace_diagnostics"
       }
     end
   },
@@ -135,7 +141,13 @@ return {
 
   {
     'stevearc/oil.nvim',
-    config = function() require('oil').setup() end
+    init = function()
+      vim.g.loaded_netrw = 1
+      vim.g.loaded_netrwPlugin = 1
+    end,
+    config = function()
+      require('oil').setup()
+    end
   },
   {
     "nvim-neo-tree/neo-tree.nvim",
