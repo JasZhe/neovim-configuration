@@ -33,22 +33,17 @@ return {
     }
   },
 
+  {
+    "mbbill/undotree",
+    init = function()
+      vim.keymap.set('n', '<leader>ut', vim.cmd.UndotreeToggle)
+    end
+  },
+
   -- TODO: scopes don't seem to be working?
   { 'tiagovla/scope.nvim' },
   { 'chrisbra/Recover.vim' },
   { 'tpope/vim-surround' },
-  {
-    'windwp/nvim-autopairs',
-    config = function()
-      require('nvim-autopairs').setup()
-      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-      local cmp = require('cmp')
-      cmp.event:on(
-        'confirm_done',
-        cmp_autopairs.on_confirm_done()
-      )
-    end
-  },
   {
     'airblade/vim-rooter',
     lazy = false,

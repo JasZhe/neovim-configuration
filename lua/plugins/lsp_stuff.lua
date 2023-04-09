@@ -3,7 +3,22 @@ return {
     'VonHeikemen/lsp-zero.nvim',
     branch = "v2.x",
     dependencies = {
-      { 'neovim/nvim-lspconfig' },
+      {
+        "neovim/nvim-lspconfig",
+        dependencies = {
+          {
+            "SmiteshP/nvim-navbuddy",
+            dependencies = {
+              "SmiteshP/nvim-navic",
+              "MunifTanjim/nui.nvim"
+            },
+            opts = {
+              lsp = { auto_attach = true },
+              window = { position = { row = "50%", col = "90%" } }
+            },
+          }
+        },
+      },
       {
         'williamboman/mason.nvim',
         build = function()
@@ -20,6 +35,70 @@ return {
       { 'L3MON4D3/LuaSnip' },
       { 'rafamadriz/friendly-snippets' },
     },
+    config = function()
+      local lsp = require('lsp-zero').preset({
+        name = 'recommended',
+      })
+      lsp.on_attach(function(_, bufnr)
+        vim.keymap.set({ 'n' }, '<leader>nb',
+          function()
+            require('nvim-navbuddy').open()
+          end,
+          {
+            buffer = bufnr,
+            desc = "nav buddy"
+          })
+
+        lsp.default_keymaps({ buffer = bufnr })
+
+        vim.keymap.set({ 'n', 'x' }, '<leader>ff',
+          function()
+            vim.lsp.buf.format({ bufnr = bufnr })
+          end,
+          {
+            buffer = bufnr,
+            desc = "lsp format butter"
+          })
+      end)
+
+      vim.filetype.add({ extension = { gohtml = 'html', gotmpl = 'html' } })
+      lsp.configure('html', {
+        filetypes = { "html", "gohtml", "gotmpl" }
+      })
+
+      lsp.configure('pylsp', {
+        settings = {
+          pylsp = {
+            plugins = {
+              pycodestyle = {
+                ignore = {},
+                maxLineLength = 120
+              }
+            }
+          }
+        }
+      })
+
+      lsp.nvim_workspace({
+        library = vim.api.nvim_get_runtime_file('', true)
+      })
+      vim.opt.signcolumn = 'yes'
+      lsp.setup()
+
+      local cmp = require('cmp')
+      cmp.setup({
+        mapping = {
+          ['<CR>'] = cmp.mapping.confirm({ select = false }),
+        }
+      })
+    end
+  },
+  {
+    "smjonas/inc-rename.nvim",
+    config = function()
+      require("inc_rename").setup()
+      vim.keymap.set("n", "<leader>rn", ":IncRename ")
+    end,
   },
   {
     "glepnir/lspsaga.nvim",
@@ -92,5 +171,17 @@ return {
       { 'rcarriga/nvim-dap-ui' },
       { 'theHamsta/nvim-dap-virtual-text' },
     }
+  },
+  {
+    'windwp/nvim-autopairs',
+    config = function()
+      require('nvim-autopairs').setup()
+      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+      local cmp = require('cmp')
+      cmp.event:on(
+        'confirm_done',
+        cmp_autopairs.on_confirm_done()
+      )
+    end
   },
 }

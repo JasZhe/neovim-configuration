@@ -23,7 +23,9 @@ return {
   {
     'folke/noice.nvim',
     init = function()
-      require("noice").setup()
+      require("noice").setup({
+        presets = { inc_rename = true }
+      })
     end,
     dependencies = {
       { "MunifTanjim/nui.nvim" },
