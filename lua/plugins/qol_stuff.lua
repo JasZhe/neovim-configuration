@@ -3,6 +3,20 @@ return {
   { 'lukas-reineke/indent-blankline.nvim' },
 
   {
+    "chrisgrieser/nvim-spider",
+    lazy = true,
+    init = function()
+      require("spider").setup({
+        skipInsignificantPunctuation = false
+      })
+      vim.keymap.set({ "n", "o", "x" }, "w", "<cmd>lua require('spider').motion('w')<CR>", { desc = "Spider-w" })
+      vim.keymap.set({ "n", "o", "x" }, "e", "<cmd>lua require('spider').motion('e')<CR>", { desc = "Spider-e" })
+      vim.keymap.set({ "n", "o", "x" }, "b", "<cmd>lua require('spider').motion('b')<CR>", { desc = "Spider-b" })
+      vim.keymap.set({ "n", "o", "x" }, "ge", "<cmd>lua require('spider').motion('ge')<CR>", { desc = "Spider-ge" })
+    end
+  },
+
+  {
     'nvim-lualine/lualine.nvim',
     opts = {
       sections = {
@@ -48,7 +62,7 @@ return {
     'airblade/vim-rooter',
     lazy = false,
     init = function()
-      vim.g.rooter_buftypes = {''}
+      vim.g.rooter_buftypes = { '' }
     end
   },
   { 'chrisbra/csv.vim' },
@@ -88,6 +102,20 @@ return {
     end
   },
 
+  {
+    'JellyApple102/easyread.nvim',
+    config = function()
+      require("easyread").setup {}
+    end
+  },
+
+  {
+    'JellyApple102/flote.nvim',
+    config = function ()
+      require("flote").setup()
+    end
+
+  },
 
   { 'folke/twilight.nvim', main = "twilight" },
   {

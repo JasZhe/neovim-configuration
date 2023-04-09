@@ -23,11 +23,6 @@ set expandtab
 " I don't like word wrap lol
 set nowrap
 
-
-
-
-
-
 " number of screen lines to show around the cursor
 set so=3
 " highlight the screen line of the cursor
@@ -65,7 +60,10 @@ map <C-]> <Nop>
 
 " NOTE: Map <C-c> to <ESC> in insert mode so we send a leave event so neorg
 " parses correctly
-inoremap <C-c> <ESC>
+" nvm lets just stop using C-c in favour of remapping caps to esc, ctrl-[, jk,
+" among others
+inoremap <C-c> <Nop>
+inoremap jk <Esc>
 
 lua require 'init_lazy'
 
