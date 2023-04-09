@@ -12,7 +12,8 @@ return {
             vim.notify("Adding Grapple")
           end
           grapple.toggle()
-        end
+        end,
+        { desc = "toggle file grapple"}
       )
       --
       -- local generate_grapple_finder = function()

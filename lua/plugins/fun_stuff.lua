@@ -23,13 +23,13 @@ return {
           nargs = 1,
           complete = function(_, _, _) return { 'duck', 'eggplant', 'water', 'cook' } end
         })
-      keymap('n', '<leader>dk', function() duck.cook() end, {})
+      keymap('n', '<leader>dk', function() duck.cook() end, { desc = "kill ducks" })
     end
   },
   {
     'eandrju/cellular-automaton.nvim',
     config = function()
-      keymap("n", "<leader>fml", "<cmd>CellularAutomaton game_of_life<CR>")
+      keymap("n", "<leader>fml", "<cmd>CellularAutomaton game_of_life<CR>", { desc = "cellular game of life" })
     end
   },
   { 'danilamihailov/beacon.nvim' },

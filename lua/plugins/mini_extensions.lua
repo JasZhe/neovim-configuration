@@ -8,10 +8,10 @@ return {
     config = function()
       local mini_trailspace = require('mini.trailspace')
       mini_trailspace.setup()
-      vim.keymap.set('n', '<leader>ts', function() mini_trailspace.trim() end)
+      vim.keymap.set('n', '<leader>ts', function() mini_trailspace.trim() end, { desc = "mini trailspace" })
     end
   },
-  { 'echasnovski/mini.indentscope',       version = false, config = function() require('mini.indentscope').setup() end }, -- dynamic indent scope highlight
+  { 'echasnovski/mini.indentscope', version = false, config = function() require('mini.indentscope').setup() end },       -- dynamic indent scope highlight
   {
     'echasnovski/mini.map',
     version = false,
@@ -32,8 +32,8 @@ return {
           width = 15
         }
       })
-      vim.keymap.set('n', '<leader>mm', function() minimap.toggle() end)
-      vim.keymap.set('n', '<leader>mf', function() minimap.toggle_focus() end)
+      vim.keymap.set('n', '<leader>mm', function() minimap.toggle() end, { desc = "minimap toggle" })
+      vim.keymap.set('n', '<leader>mf', function() minimap.toggle_focus() end, { desc = "minimap focus" })
     end
   },
 }

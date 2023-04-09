@@ -28,8 +28,8 @@ return {
         -- Actions
         map({ 'n', 'v' }, '<leader>hs', ':Gitsigns stage_hunk<CR>')
         map({ 'n', 'v' }, '<leader>hr', ':Gitsigns reset_hunk<CR>')
-        map('n', '<leader>nh', gs.next_hunk)
-        map('n', '<leader>ph', gs.prev_hunk)
+        map('n', '<leader>]h', gs.next_hunk)
+        map('n', '<leader>[h', gs.prev_hunk)
         map('n', '<leader>hu', gs.undo_stage_hunk)
         map('n', '<leader>hp', gs.preview_hunk)
         map('n', '<leader>hb', function() gs.blame_line { full = true } end)
