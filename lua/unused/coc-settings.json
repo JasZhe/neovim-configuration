@@ -1,0 +1,9 @@
+{
+  "languageserver": {
+    "kotlin": {
+      "command": "/opt/homebrew/bin/kotlin-language-server",
+      "rootPatterns": ["build.gradle", "build.gradle.kts"],
+      "filetypes": ["kotlin", "kt"]
+    }
+  }
+}

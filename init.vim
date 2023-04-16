@@ -2,7 +2,7 @@
 
 set mouse=a
 set autoindent
-set termguicolors
+" set termguicolors, unset for solarized
 
 " better <Leader> key, need to map space to nop otherwise space will move
 " cursor forward one position which is annoying
@@ -32,6 +32,8 @@ set cul
 " plugin on: when a file is edited, its plugin file is loaded. Loads 'ftplugin.vim'
 " indent on: when a file is edited, its indent file is loaded. Loads 'indent.vim'
 filetype plugin indent on
+" for vimwiki
+set nocompatible
 
 " Go to next camel case
 nnoremap <c-k> :<c-u>call search('\u')<cr>
@@ -63,9 +65,12 @@ map <C-]> <Nop>
 " nvm lets just stop using C-c in favour of remapping caps to esc, ctrl-[, jk,
 " among others
 inoremap <C-c> <Nop>
-inoremap jk <Esc>
+inoremap kj <Esc>
 
 lua require 'init_lazy'
 
 " wrap the text in the previewer
 autocmd User TelescopePreviewerLoaded setlocal wrap
+
+" for solarized:
+syntax enable

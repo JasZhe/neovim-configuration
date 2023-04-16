@@ -74,14 +74,6 @@ return {
   },
 
   {
-    "folke/tokyonight.nvim",
-    lazy = false,
-    priority = 1000,
-    config = function()
-      vim.cmd([[colorscheme tokyonight]])
-    end,
-  },
-  {
     "folke/which-key.nvim",
     config = function()
       vim.o.timeout = true
@@ -91,8 +83,6 @@ return {
       })
     end,
   },
-
-
   { 'tpope/vim-repeat' },
   { 'romainl/vim-cool' }, -- so we don't gotta type :noh all the time to get rid of search highlighting
   {

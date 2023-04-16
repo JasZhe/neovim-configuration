@@ -18,7 +18,7 @@ function _G.Toggle_venn()
 end
 
 return {
-  { "ellisonleao/glow.nvim", config = true,    cmd = "Glow" },
+  { "ellisonleao/glow.nvim", config = true, cmd = "Glow" },
   {
     'nvim-neorg/neorg',
     build = ":Neorg sync-parsers",
@@ -48,4 +48,5 @@ return {
       vim.api.nvim_set_keymap('n', '<leader>V', ":lua Toggle_venn()<CR>", { noremap = true })
     end
   },
+  'vimwiki/vimwiki'
 }

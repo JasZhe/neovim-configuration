@@ -8,8 +8,7 @@ local git_hunks = function()
 
             -- I couldn't find a way to use grep in new_oneshot_job so we have to filter here.
             -- return nil if filename is /dev/null because this means the file was deleted.
-            if filename:match("^/dev/null") then
-              return nil
+            if filename:match("^/dev/null") then return nil
             end
 
             return {
@@ -92,8 +91,9 @@ return {
         tb.current_buffer_fuzzy_find({ default_text = text })
       end, opts("telescope current buffer fuzzy find"))
 
-      vim.keymap.set('n', '<leader>G', ':Telescope live_grep_args<cr>', opts("telescope grep with args"))
-      vim.keymap.set('v', '<leader>G', function()
+      vim.keymap.set('n', '<leader>G', ':Telescope live_grep<cr>', opts("telescope grep"))
+      vim.keymap.set('n', '<leader>GA', ':Telescope live_grep_args<cr>', opts("telescope grep with args"))
+      vim.keymap.set('v', '<leader>GA', function()
         local text = vim.getVisualSelection()
         tb.live_grep({ default_text = text })
       end, opts("telescope grep with args"))
