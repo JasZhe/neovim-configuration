@@ -60,11 +60,6 @@ set number "show line numbers on the side
 " Use lsp go to definition instead
 map <C-]> <Nop>
 
-" NOTE: Map <C-c> to <ESC> in insert mode so we send a leave event so neorg
-" parses correctly
-" nvm lets just stop using C-c in favour of remapping caps to esc, ctrl-[, jk,
-" among others
-inoremap <C-c> <Nop>
 inoremap kj <Esc>
 
 lua require 'init_lazy'
