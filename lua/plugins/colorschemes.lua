@@ -3,9 +3,9 @@ return {
     "folke/tokyonight.nvim",
     lazy = false,
     priority = 1000,
-    config = function()
-      vim.cmd([[colorscheme paper]])
-    end
+    -- config = function()
+    --   vim.cmd([[colorscheme solarized]])
+    -- end
   },
   {
     'morhetz/gruvbox',
@@ -42,10 +42,12 @@ return {
   },
   {
     'altercation/vim-colors-solarized',
-    -- config = function()
-    --   vim.o.background = 'light'
-    --   vim.cmd.colorscheme("solarized")
-    -- end
+    config = function()
+      vim.cmd.colorscheme("dayfox")
+      -- vim.g.solarized_termcolors = 256
+      -- vim.o.background = 'light'
+      -- vim.cmd.colorscheme("solarized")
+    end
   },
   "NTBBloodbath/sweetie.nvim",
   {

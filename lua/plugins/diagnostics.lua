@@ -20,16 +20,16 @@ return {
       }
     end
   },
-  {
-    'folke/noice.nvim',
-    init = function()
-      require("noice").setup({
-        presets = { inc_rename = true }
-      })
-    end,
-    dependencies = {
-      { "MunifTanjim/nui.nvim" },
-      { 'rcarriga/nvim-notify' },
-    }
-  },
+  -- {
+  --   'folke/noice.nvim',
+  --   init = function()
+  --     require("noice").setup({
+  --       presets = { inc_rename = true }
+  --     })
+  --   end,
+  --   dependencies = {
+  --     { "MunifTanjim/nui.nvim" },
+  --     { 'rcarriga/nvim-notify' },
+  --   }
+  -- },
 }

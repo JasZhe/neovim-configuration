@@ -16,36 +16,36 @@ return {
     end
   },
 
-  {
-    'nvim-lualine/lualine.nvim',
-    opts = {
-      sections = {
-        lualine_a = {
-          'mode',
-          function()
-            local animated = {
-              "🥚    ",
-              " 🐣   ",
-              "  🐥  ",
-              "    🐓 ",
-              "     🍗",
-            }
-            return animated[os.date("%S") % #animated + 1]
-          end
-        },
-        lualine_c = {
-          {
-            'filename',
-            file_stats = true,
-            path = 2,
-          }
-        }
-      }
-    },
-    dependencies = {
-      { 'nvim-tree/nvim-web-devicons' }
-    }
-  },
+  -- {
+  --   'nvim-lualine/lualine.nvim',
+  --   opts = {
+  --     sections = {
+  --       lualine_a = {
+  --         'mode',
+  --         function()
+  --           local animated = {
+  --             "🥚    ",
+  --             " 🐣   ",
+  --             "  🐥  ",
+  --             "    🐓 ",
+  --             "     🍗",
+  --           }
+  --           return animated[os.date("%S") % #animated + 1]
+  --         end
+  --       },
+  --       lualine_c = {
+  --         {
+  --           'filename',
+  --           file_stats = true,
+  --           path = 2,
+  --         }
+  --       }
+  --     }
+  --   },
+  --   dependencies = {
+  --     { 'nvim-tree/nvim-web-devicons' }
+  --   }
+  -- },
 
   {
     "mbbill/undotree",

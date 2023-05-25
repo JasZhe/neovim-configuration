@@ -127,6 +127,7 @@ return {
         }
       })
       vim.keymap.set("n", "<C-]>", "<cmd>Lspsaga lsp_finder<CR>", { desc = "lspsaga lsp refs" })
+      vim.keymap.set("n", "<C-]>", "<cmd>Lspsaga lsp_finder<CR>", { desc = "lspsaga lsp refs" })
       vim.keymap.set({ "n", "v" }, "<leader>ca", "<cmd>Lspsaga code_action<CR>", { desc = "lspsaga code action" })
 
       -- Diagnostic jump
